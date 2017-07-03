@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">WassupWorld</string>
+    <string name="sync_account_type">wassupworld.example.com</string>
+    <string name="content_authority">com.example.android.wassupworld.provider.provider</string>
+
+</resources>
