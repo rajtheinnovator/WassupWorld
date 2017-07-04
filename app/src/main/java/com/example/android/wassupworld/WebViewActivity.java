@@ -3,7 +3,6 @@ package com.example.android.wassupworld;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,11 +31,7 @@ public class WebViewActivity extends AppCompatActivity {
             if (url != null) {
                 if (isChromeCustomTabsSupported(this)) {
                     CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                    String shareLabel = "Share";
-                    Bitmap icon = BitmapFactory.decodeResource(getResources(),
-                            android.R.drawable.ic_menu_share);
                     builder.addDefaultShareMenuItem();
-
                     builder.setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back));
                     CustomTabsIntent customTabsIntent = builder.build();
                     customTabsIntent.launchUrl(this, Uri.parse(url));

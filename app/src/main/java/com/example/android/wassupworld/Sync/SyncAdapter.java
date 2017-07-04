@@ -26,6 +26,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -41,10 +42,8 @@ import retrofit2.Response;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
-    public static final int SYNC_INTERVAL = 60 * 180;
+    public static final int SYNC_INTERVAL = 60 * 30;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
-    private ArrayList<String> idSources = new ArrayList<>();
-    private ArrayList<String> catSources = new ArrayList<>();
    private  List<Sources> sources=new ArrayList<>();
 
     public SyncAdapter(Context context, boolean autoInitialize) {
@@ -82,13 +81,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     itemValues.put(NewsContract.SourcesEntry.COLUMN_NAME, name);
                     itemValues.put(NewsContract.SourcesEntry.COLUMN_URL_TO_IMAGE, urlToImage);
                     itemValues.put(NewsContract.SourcesEntry.COLUMN_URL, uri);
-                    idSources.add(id);
-                    catSources.add(category);
+
                     cVVector.add(itemValues);
                 }
                 if (cVVector.size() > 0) {
                     ContentValues[] cvArray = new ContentValues[cVVector.size()];
                     cVVector.toArray(cvArray);
+                    getContext().getContentResolver().delete(NewsContract.SourcesEntry.CONTENT_URI, null,null);
+
                     getContext().getContentResolver().bulkInsert(NewsContract.SourcesEntry.CONTENT_URI, cvArray);
 
                 }
@@ -136,11 +136,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     if (cVVector.size() > 0) {
                         ContentValues[] cvArray = new ContentValues[cVVector.size()];
                         cVVector.toArray(cvArray);
+
                         getContext().getContentResolver().bulkInsert(NewsContract.NewsnEntry.CONTENT_URI, cvArray);
 
-                        getContext().getContentResolver().delete(NewsContract.NewsnEntry.CONTENT_URI,
-                                NewsContract.NewsnEntry._ID + " >= ?",
-                                new String[]{"150"});
+
 
                     }
                 }
@@ -151,6 +150,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 }
             });
         }
+        getContext().getContentResolver().delete(NewsContract.NewsnEntry.CONTENT_URI,
+                NewsContract.NewsnEntry.COLUMN_DATE + " <= ?",
+                new String[]{beforetodays()+""});
+
     }
 
     private long getUnixTime(String dateString) {
@@ -165,7 +168,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 Log.e("ayat", e.getErrorOffset() + "");
                 return 0;
             }
-            long unixTime = (long) date.getTime() / 1000;
+            long unixTime = (long) date.getTime() /1000;
             return unixTime;
         } else {
             Log.e("ayat", "string date equal null" + "");
@@ -219,7 +222,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
         return newAccount;
     }
-
+public long beforetodays(){
+    Calendar cal = Calendar.getInstance();
+    cal.add(Calendar.DATE, -2);
+    Date date=cal.getTime();
+    long unixTime = (long) date.getTime() /1000;
+    return unixTime;
+}
     public static void configurePeriodicSync(Context context, int syncInterval, int flexTime) {
         Account account = getSyncAccount(context);
         String authority = context.getString(R.string.content_authority);
@@ -252,6 +261,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
          */
         syncImmediately(context);
     }
+
 
     public static void initializeSyncAdapter(Context context) {
         getSyncAccount(context);

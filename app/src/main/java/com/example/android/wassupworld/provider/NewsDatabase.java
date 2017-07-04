@@ -31,12 +31,13 @@ public class NewsDatabase extends SQLiteOpenHelper {
 
                         NewsnEntry.COLUMN_DATE + " INTEGER  , " +
                         NewsnEntry.COLUMN_AUTHOR + " TEXT , " +
-                        NewsnEntry.COLUMN_CATEGORY + " TEXT  , " +
+                        NewsContract.NewsnEntry.COLUMN_CATEGORY + " TEXT  , " +
                         NewsnEntry.COLUMN_DESCRIPTION + " TEXT , " +
                         NewsnEntry.COLUMN_SOURCE + " TEXT , " +
                         NewsnEntry.COLUMN_TITLE + " TEXT , " +
                         NewsnEntry.COLUMN_URL + " TEXT , " +
-                        NewsnEntry.COLUMN_URL_TO_IMAGE + " TEXT ); ";
+                        NewsnEntry.COLUMN_URL_TO_IMAGE + " TEXT , " +
+                        " UNIQUE (" +NewsnEntry.COLUMN_TITLE + ") ON CONFLICT REPLACE);";;
 
         final String SQL_CREATE_WATCH_LATER_NEWS_TABLE =
 
@@ -52,7 +53,9 @@ public class NewsDatabase extends SQLiteOpenHelper {
                         NewsContract.WatchLaterEntry.COLUMN_SOURCE + " TEXT , " +
                         NewsContract.WatchLaterEntry.COLUMN_TITLE + " TEXT , " +
                         NewsContract.WatchLaterEntry.COLUMN_URL + " TEXT , " +
-                        NewsContract.WatchLaterEntry.COLUMN_URL_TO_IMAGE + " TEXT ); ";
+                        NewsContract.WatchLaterEntry.COLUMN_URL_TO_IMAGE + " TEXT , "+
+                        " UNIQUE (" +NewsContract.WatchLaterEntry.COLUMN_TITLE + ") ON CONFLICT REPLACE);";;
+
 
         final String SQL_CREATE_SOURCES_TABLE = "CREATE TABLE " + NewsContract.SourcesEntry.TABLE_NAME + " (" +
 

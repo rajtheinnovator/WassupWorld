@@ -3,6 +3,7 @@ package com.example.android.wassupworld.Adapter;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,11 @@ import android.widget.TextView;
 import com.example.android.wassupworld.R;
 import com.example.android.wassupworld.provider.NewsContract;
 import com.squareup.picasso.Picasso;
+
+import org.ocpsoft.prettytime.PrettyTime;
+
+import java.util.Date;
+import java.util.Locale;
 
 
 /**
@@ -62,12 +68,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsAdapterVie
         String des = mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_DESCRIPTION));
         String imageUrl = mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_URL_TO_IMAGE));
         String cat = mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_CATEGORY));
-        long date = mCursor.getLong(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_DATE));
-        Picasso.with(mContext).load(imageUrl).into(holder.newsImageView);
+        long dateInUnix = mCursor.getLong(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_DATE));
+
+        Date date = new Date((long)dateInUnix*1000);
+
+        String prettyTimeString = new PrettyTime(Locale.ENGLISH).format(date);
+        if (!TextUtils.isEmpty(imageUrl))
+            Picasso.with(mContext).load(imageUrl).into(holder.newsImageView);
         holder.authorTextView.setText(auther);
         holder.descriptionTextView.setText(des);
         holder.titleTextView.setText(title);
-        holder.dateTextView.setText(date+"");
+        holder.dateTextView.setText(prettyTimeString);
         holder.catogeryTextView.setText(cat);
 
 

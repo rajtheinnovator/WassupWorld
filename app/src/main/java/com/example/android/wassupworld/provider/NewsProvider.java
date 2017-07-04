@@ -46,16 +46,12 @@ public final class NewsProvider extends android.content.ContentProvider {
 
             case CODE_NEWS: {
 
-                  //  String normalizedUtcDateString = uri.getLastPathSegment();
-
-            // String[] selectionArguments = new String[]{normalizedUtcDateString};
-
                 cursor = mOpenHelper.getReadableDatabase().query(
                         /* Table we are going to query */
                         NewsContract.NewsnEntry.TABLE_NAME,
                          projection,
-                        null,
-                        null,
+                        selection,
+                        selectionArgs,
                         null,
                         null,
                         sortOrder);
@@ -73,7 +69,7 @@ public final class NewsProvider extends android.content.ContentProvider {
                         /* Table we are going to query */
                     NewsContract.WatchLaterEntry.TABLE_NAME,
                     projection,
-                    NewsContract.WatchLaterEntry._ID + " = ? ",
+                    selection,
                     selectionArguments,
                     null,
                     null,
@@ -91,7 +87,7 @@ public final class NewsProvider extends android.content.ContentProvider {
                         /* Table we are going to query */
                     NewsContract.SourcesEntry.TABLE_NAME,
                     projection,
-                    NewsContract.SourcesEntry._ID + " = ? ",
+                   selection,
                     selectionArguments,
                     null,
                     null,
