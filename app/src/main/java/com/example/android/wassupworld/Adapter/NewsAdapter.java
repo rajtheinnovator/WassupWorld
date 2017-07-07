@@ -1,5 +1,6 @@
 package com.example.android.wassupworld.Adapter;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
@@ -7,10 +8,12 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.wassupworld.R;
+import com.example.android.wassupworld.Utils.Icons;
 import com.example.android.wassupworld.provider.NewsContract;
 import com.squareup.picasso.Picasso;
 
@@ -53,7 +56,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsAdapterVie
     @Override
     public NewsAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.news_list_item, parent, false);
 
         view.setFocusable(true);
 
@@ -63,19 +66,22 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsAdapterVie
     @Override
     public void onBindViewHolder(NewsAdapterViewHolder holder, int position) {
         mCursor.moveToPosition(position);
-        String auther = mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_AUTHOR));
+        String source = mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_SOURCE));
         String title = mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_TITLE));
         String des = mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_DESCRIPTION));
         String imageUrl = mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_URL_TO_IMAGE));
         String cat = mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_CATEGORY));
         long dateInUnix = mCursor.getLong(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_DATE));
 
-        Date date = new Date((long)dateInUnix*1000);
+        Date date = new Date((long) dateInUnix * 1000);
 
         String prettyTimeString = new PrettyTime(Locale.ENGLISH).format(date);
         if (!TextUtils.isEmpty(imageUrl))
             Picasso.with(mContext).load(imageUrl).into(holder.newsImageView);
-        holder.authorTextView.setText(auther);
+        if (!TextUtils.isEmpty(source))
+            Picasso.with(mContext).load(Icons.getImageUrl(source)).into(holder.sourceImageView);
+
+
         holder.descriptionTextView.setText(des);
         holder.titleTextView.setText(title);
         holder.dateTextView.setText(prettyTimeString);
@@ -114,23 +120,24 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsAdapterVie
 
     class NewsAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final ImageView newsImageView;
-        final TextView authorTextView;
+        final ImageView sourceImageView;
         final TextView descriptionTextView;
         final TextView titleTextView;
         final TextView catogeryTextView;
         final TextView dateTextView;
-
+        final ImageButton watchLaterButton;
 
         NewsAdapterViewHolder(View view) {
             super(view);
 
             newsImageView = (ImageView) view.findViewById(R.id.iv_news);
-            authorTextView = (TextView) view.findViewById(R.id.tv_author);
-            descriptionTextView = (TextView) view.findViewById(R.id.tv_descreption);
-            titleTextView = (TextView) view.findViewById(R.id.tv_title);
-            catogeryTextView = (TextView) view.findViewById(R.id.tv_category);
-            dateTextView = (TextView) view.findViewById(R.id.tv_date);
-
+            sourceImageView = (ImageView) view.findViewById(R.id.iv_source_logo);
+            descriptionTextView = (TextView) view.findViewById(R.id.tv_descreption_news);
+            titleTextView = (TextView) view.findViewById(R.id.tv_title_news);
+            catogeryTextView = (TextView) view.findViewById(R.id.tv_category_news);
+            dateTextView = (TextView) view.findViewById(R.id.tv_date_news);
+            watchLaterButton = (ImageButton) view.findViewById(R.id.button_watch_later_news);
+            watchLaterButton.setOnClickListener(this);
             view.setOnClickListener(this);
         }
 
@@ -145,8 +152,30 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsAdapterVie
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
             mCursor.moveToPosition(adapterPosition);
+
+
+            if (v.getId() == R.id.button_watch_later_news) {
+                 ContentValues itemValues = new ContentValues();
+
+                itemValues.put(NewsContract.WatchLaterEntry.COLUMN_CATEGORY, mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_SOURCE)));
+                itemValues.put(NewsContract.WatchLaterEntry.COLUMN_AUTHOR, mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_AUTHOR)));
+                itemValues.put(NewsContract.WatchLaterEntry.COLUMN_DATE, mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_DATE)));
+                itemValues.put(NewsContract.WatchLaterEntry.COLUMN_DESCRIPTION, mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_DESCRIPTION)));
+                itemValues.put(NewsContract.WatchLaterEntry.COLUMN_TITLE, mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_TITLE)));
+                itemValues.put(NewsContract.WatchLaterEntry.COLUMN_URL, mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_URL)));
+                itemValues.put(NewsContract.WatchLaterEntry.COLUMN_URL_TO_IMAGE, mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_URL_TO_IMAGE)));
+                itemValues.put(NewsContract.WatchLaterEntry.COLUMN_SOURCE, mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_SOURCE)));
+
+
+                mContext.getContentResolver().insert(NewsContract.WatchLaterEntry.CONTENT_URI, itemValues);
+
+            }
+            else if(v.getId() == R.id.button_watch_later_news) {
             String url = mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_URL));
             mClickHandler.onClick(url);
         }
+
+        }
     }
+
 }

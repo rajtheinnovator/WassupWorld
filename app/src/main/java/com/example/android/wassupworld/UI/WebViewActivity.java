@@ -1,4 +1,4 @@
-package com.example.android.wassupworld;
+package com.example.android.wassupworld.UI;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
+
+import com.example.android.wassupworld.R;
 
 import java.util.List;
 
@@ -32,6 +34,7 @@ public class WebViewActivity extends AppCompatActivity {
                 if (isChromeCustomTabsSupported(this)) {
                     CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
                     builder.addDefaultShareMenuItem();
+                    builder.setShowTitle(true);
                     builder.setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back));
                     CustomTabsIntent customTabsIntent = builder.build();
                     customTabsIntent.launchUrl(this, Uri.parse(url));

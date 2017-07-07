@@ -16,7 +16,7 @@ import android.support.annotation.Nullable;
 
 public final class NewsProvider extends android.content.ContentProvider {
     public static final int CODE_NEWS = 100;
-    public static final int CODE_WATCHLATER_NEWS = 105;
+    public static final int CODE_WATCH_LATER_NEWS = 105;
     public static final int CODE_SOURCES = 110;
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private NewsDatabase mOpenHelper;
@@ -26,7 +26,7 @@ public final class NewsProvider extends android.content.ContentProvider {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = NewsContract.CONTENT_AUTHORITY;
         matcher.addURI(authority, NewsContract.PATH_NEWS, CODE_NEWS);
-        matcher.addURI(authority, NewsContract.PATH__WATCH_LATER_NEWS, CODE_WATCHLATER_NEWS);
+        matcher.addURI(authority, NewsContract.PATH__WATCH_LATER_NEWS, CODE_WATCH_LATER_NEWS);
         matcher.addURI(authority, NewsContract.PATH_SOURCES, CODE_SOURCES);
         return matcher;
     }
@@ -59,18 +59,15 @@ public final class NewsProvider extends android.content.ContentProvider {
                 break;
             }
 
-        case CODE_WATCHLATER_NEWS: {
+        case CODE_WATCH_LATER_NEWS: {
 
-            String normalizedUtcDateString = uri.getLastPathSegment();
-
-            String[] selectionArguments = new String[]{normalizedUtcDateString};
 
             cursor = mOpenHelper.getReadableDatabase().query(
                         /* Table we are going to query */
                     NewsContract.WatchLaterEntry.TABLE_NAME,
                     projection,
                     selection,
-                    selectionArguments,
+                    selectionArgs,
                     null,
                     null,
                     sortOrder);
@@ -79,16 +76,13 @@ public final class NewsProvider extends android.content.ContentProvider {
         }
         case CODE_SOURCES: {
 
-            String normalizedUtcDateString = uri.getLastPathSegment();
-
-            String[] selectionArguments = new String[]{normalizedUtcDateString};
 
             cursor = mOpenHelper.getReadableDatabase().query(
                         /* Table we are going to query */
                     NewsContract.SourcesEntry.TABLE_NAME,
                     projection,
                    selection,
-                    selectionArguments,
+                    selectionArgs,
                     null,
                     null,
                     sortOrder);
@@ -162,7 +156,7 @@ public final class NewsProvider extends android.content.ContentProvider {
         Uri returnUri;
 
         switch (match) {
-            case CODE_WATCHLATER_NEWS :{
+            case CODE_WATCH_LATER_NEWS :{
 
                  id = db.insert(NewsContract.WatchLaterEntry.TABLE_NAME, null, values);
                 if (id > 0) {
@@ -220,7 +214,7 @@ public final class NewsProvider extends android.content.ContentProvider {
                         selectionArgs);
 
                 break;
-            case CODE_WATCHLATER_NEWS:
+            case CODE_WATCH_LATER_NEWS:
                 numRowsDeleted = mOpenHelper.getWritableDatabase().delete(
                         NewsContract.WatchLaterEntry.TABLE_NAME,
                         selection,
