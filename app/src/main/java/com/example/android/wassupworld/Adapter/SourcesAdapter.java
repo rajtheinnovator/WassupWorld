@@ -31,7 +31,7 @@ public class SourcesAdapter extends RecyclerView.Adapter<SourcesAdapter.SourcesA
      * The interface that receives onClick messages.
      */
     public interface AdapterOnClickHandlerSources {
-        void onClick(String url);
+        void onClick(String source);
     }
 
     public SourcesAdapter(Context context, Cursor cursor, AdapterOnClickHandlerSources clickHandler) {
@@ -97,9 +97,11 @@ else
 
         @Override
         public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            mCursor.moveToPosition(adapterPosition);
 
-            String url = mCursor.getString(mCursor.getColumnIndex(NewsContract.SourcesEntry.COLUMN_URL));
-            mClickHandler.onClick(url);
+            String name = mCursor.getString(mCursor.getColumnIndex(NewsContract.SourcesEntry.COLUMN_ID));
+            mClickHandler.onClick(name);
         }
     }
 }

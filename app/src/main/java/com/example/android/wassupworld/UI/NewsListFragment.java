@@ -3,6 +3,7 @@ package com.example.android.wassupworld.UI;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -23,7 +24,8 @@ public class NewsListFragment extends Fragment implements LoaderManager.LoaderCa
     private RecyclerView mRecycleView;
     private RecyclerView.LayoutManager mLayoutManager;
     private NewsAdapter mNewsAdapter;
-
+ private RecyclerViewUtils.ShowHideToolbarOnScrollingListener showHideToolbarListener;
+private AppBarLayout toolbar;
     public NewsListFragment() {
         // Required empty public constructor
     }
@@ -43,18 +45,16 @@ public class NewsListFragment extends Fragment implements LoaderManager.LoaderCa
 
         View rootView = inflater.inflate(R.layout.fragment_news_list, container, false);
 
+
         mNewsAdapter = new NewsAdapter(getContext(), null, this);
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
         mRecycleView = (RecyclerView) rootView.findViewById(R.id.news_list_recycle_view);
         mRecycleView.setLayoutManager(mLayoutManager);
         mRecycleView.setAdapter(mNewsAdapter);
-
         getActivity().getSupportLoaderManager().initLoader(0, null, this);
-        return rootView;
-    }
 
-
+        return rootView; }
 
 
     @Override

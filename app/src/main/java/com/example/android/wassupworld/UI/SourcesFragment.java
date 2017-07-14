@@ -1,5 +1,6 @@
 package com.example.android.wassupworld.UI;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,12 +24,14 @@ public class SourcesFragment extends Fragment implements LoaderManager.LoaderCal
     private RecyclerView mRecycleView;
     private GridLayoutManager mLayoutManager;
     private SourcesAdapter mSourcesAdapter;
+    public static final String TYPE_KEY = "type";
+    public static final String TYPE_VALUE = "value";
+    public static final String SOURCE = "source";
 
 
     public SourcesFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
@@ -44,36 +47,35 @@ public class SourcesFragment extends Fragment implements LoaderManager.LoaderCal
         View rootView = inflater.inflate(R.layout.fragment_sources, container, false);
         mSourcesAdapter = new SourcesAdapter(getContext(), null, this);
         int mNoOfColumns = Icons.calculateNoOfColumnsSourcesList(getContext());
-        mLayoutManager = new GridLayoutManager(getContext(),mNoOfColumns);
+        mLayoutManager = new GridLayoutManager(getContext(), mNoOfColumns);
 
         mRecycleView = (RecyclerView) rootView.findViewById(R.id.sources_recycle_view);
-       mRecycleView.setLayoutManager(mLayoutManager);
+        mRecycleView.setLayoutManager(mLayoutManager);
         mRecycleView.setAdapter(mSourcesAdapter);
         getActivity().getSupportLoaderManager().initLoader(1, null, this);
         return rootView;
     }
 
 
-
-
-
     @Override
     public void onDetach() {
         super.onDetach();
-  }
-
-    @Override
-    public void onClick(String url) {
-
     }
 
+    @Override
+    public void onClick(String name) {
+        Intent intent = new Intent(getActivity(), SourceNewsActivity.class);
+        intent.putExtra(TYPE_KEY, SOURCE);
+        intent.putExtra(TYPE_VALUE, name);
+        startActivity(intent);
+    }
 
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
 
-        if(id==1) {
+        if (id == 1) {
             return new CursorLoader(getContext(),
                     NewsContract.SourcesEntry.CONTENT_URI,
                     null,
@@ -81,7 +83,8 @@ public class SourcesFragment extends Fragment implements LoaderManager.LoaderCal
                     null,
                     null);
 
-        }return  null;
+        }
+        return null;
     }
 
     @Override

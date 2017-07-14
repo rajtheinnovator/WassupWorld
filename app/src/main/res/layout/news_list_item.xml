@@ -13,62 +13,86 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/iv_news"
-            android:scaleType="fitCenter"
-            tools:src="@mipmap/ic_launcher"
-            />
+            android:layout_width="match_parent"
+         android:layout_height="200dp"
+
+            android:scaleType="fitXY"
+            tools:src="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/tv_title_news"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:textColor="@color/cardview_dark_background"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:padding="5dp"
             tools:text="Wimbledon: Watch Konta, Wawrinka plus up to 15 courts" />
+
+
+
         <TextView
             android:id="@+id/tv_descreption_news"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:padding="10dp"
+            android:maxLines="3"
+            android:ellipsize="end"
             android:textSize="15sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             tools:text="Watch action from up to 15 courts as Rafael Nadal, Stan Wawrinka and Aljaz Bedene play in the first round after Andy Murray wins." />
-<TableRow android:layout_height="wrap_content" android:layout_width="match_parent">
-        <ImageView
-            tools:src="@drawable/ic_access_time_black_24dp"
 
-            android:id="@+id/iv_source_logo"
-            android:padding="5dp"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            tools:text="BBC Sport" />
-        <TextView
-
-            android:id="@+id/tv_category_news"
-            android:padding="5dp"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="sport" />
-    <TextView
+            android:orientation="horizontal">
 
-        android:id="@+id/tv_date_news"
-        android:padding="5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="sport" />
-    <ImageButton
+            <ImageView
+                android:id="@+id/iv_source_logo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:padding="5dp"
+                tools:src="@drawable/ic_access_time_black_24dp"
+                tools:text="BBC Sport" />
 
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_bookmark_border_black_24dp"
-        android:id="@+id/button_watch_later_news"/>
-</TableRow>
+            <TextView
+                android:id="@+id/tv_category_news"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_toEndOf="@id/iv_source_logo"
+                android:layout_toRightOf="@id/iv_source_logo"
+                android:gravity="center_horizontal"
+                android:padding="5dp"
+                tools:text="sport" />
+            <TextView
+                android:id="@+id/tv_date_news"
+                android:layout_below="@id/tv_category_news"
+                android:layout_toEndOf="@id/iv_source_logo"
+                android:layout_toRightOf="@id/iv_source_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:padding="5dp"
+                tools:text="3 hours" />
+            <ImageButton
+
+                android:id="@+id/button_watch_later_news"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_bookmark_border_black_24dp" />
+
+
+        </RelativeLayout>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

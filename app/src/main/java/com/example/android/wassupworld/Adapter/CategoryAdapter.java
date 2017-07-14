@@ -33,7 +33,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
      * The interface that receives onClick messages.
      */
     public interface CatAdapterOnClickHandler {
-        void onClick(String url);
+        void onClick(String name);
     }
 
     public CategoryAdapter(Context context, CatAdapterOnClickHandler clickHandler, ArrayList<String> array) {
@@ -100,30 +100,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
          */
         @Override
         public void onClick(View v) {
-//            int adapterPosition = getAdapterPosition();
-//            mCursor.moveToPosition(adapterPosition);
-//
-//
-//            if (v.getId() == R.id.button_watch_later_news) {
-//                ContentValues itemValues = new ContentValues();
-//
-//                itemValues.put(NewsContract.WatchLaterEntry.COLUMN_CATEGORY, mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_SOURCE)));
-//                itemValues.put(NewsContract.WatchLaterEntry.COLUMN_AUTHOR, mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_AUTHOR)));
-//                itemValues.put(NewsContract.WatchLaterEntry.COLUMN_DATE, mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_DATE)));
-//                itemValues.put(NewsContract.WatchLaterEntry.COLUMN_DESCRIPTION, mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_DESCRIPTION)));
-//                itemValues.put(NewsContract.WatchLaterEntry.COLUMN_TITLE, mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_TITLE)));
-//                itemValues.put(NewsContract.WatchLaterEntry.COLUMN_URL, mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_URL)));
-//                itemValues.put(NewsContract.WatchLaterEntry.COLUMN_URL_TO_IMAGE, mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_URL_TO_IMAGE)));
-//                itemValues.put(NewsContract.WatchLaterEntry.COLUMN_SOURCE, mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_SOURCE)));
-//
-//
-//                mContext.getContentResolver().insert(NewsContract.WatchLaterEntry.CONTENT_URI, itemValues);
-//
-//            }
-//            else if(v.getId() == R.id.button_watch_later_news) {
-//                String url = mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_URL));
-//                mClickHandler.onClick(url);
-//            }
+           int adapterPosition = getAdapterPosition();
+            String name = mArray.get(adapterPosition);
+            mClickHandler.onClick(name);
 
         }
     }

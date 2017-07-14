@@ -2,27 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_favorites"
+        android:id="@+id/action_lastet"
         android:enabled="true"
-        android:icon="@drawable/ic_favorite_black_24dp"
-        android:title="@string/text_favorites"
-        app:showAsAction="ifRoom" />
+        android:icon="@drawable/newspaper"
+        android:title="@string/action_lastet"
+        app:showAsAction="always" />
     <item
-        android:id="@+id/action_schedules"
+        android:id="@+id/action_sources"
         android:enabled="true"
-        android:icon="@drawable/ic_access_time_black_24dp"
-        android:title="@string/text_schedules"
-        app:showAsAction="ifRoom" />
+        android:icon="@drawable/ic_sources_black_24dp"
+        android:title="@string/action_sources"
+        app:showAsAction="always" />
     <item
-        android:id="@+id/action_music"
+        android:id="@+id/action_explore"
         android:enabled="true"
-        android:icon="@drawable/ic_arrow_back"
-        android:title="@string/text_music"
-        app:showAsAction="ifRoom" />
+        android:icon="@drawable/ic_explore_black_24dp"
+        android:title="@string/action_explore"
+        app:showAsAction="always" />
     <item
-        android:id="@+id/action_Explore"
+        android:id="@+id/action_bookmark"
         android:enabled="true"
-        android:icon="@drawable/ic_arrow_back"
-        android:title="@string/text_music"
-        app:showAsAction="ifRoom" />
+        android:icon="@drawable/ic_bookmark_black_24dp"
+        android:title="@string/action_bookmark"
+        app:showAsAction="always" />
+
 </menu>

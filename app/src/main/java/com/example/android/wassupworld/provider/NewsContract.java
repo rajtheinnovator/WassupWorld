@@ -49,6 +49,9 @@ public class NewsContract {
         public static final String COLUMN_SOURCE = "source";
 
         public static final String COLUMN_DATE = "date";
+
+
+
     }
 
     public static final class WatchLaterEntry implements BaseColumns {

@@ -1,6 +1,7 @@
 package com.example.android.wassupworld.UI;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,20 +14,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.android.wassupworld.Adapter.WatchLaterAdapter;
+import com.example.android.wassupworld.Adapter.NewsAdapter;
 import com.example.android.wassupworld.R;
 import com.example.android.wassupworld.provider.NewsContract;
 
-public class WatchLaterFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> ,WatchLaterAdapter.WatchLaterAdapterOnClickHandler{
+public class WatchLaterFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, NewsAdapter.AdapterOnClickHandler {
 
     private RecyclerView mRecycleView;
     private RecyclerView.LayoutManager mLayoutManager;
-    private WatchLaterAdapter mLaterAdapter;
+    private NewsAdapter mLaterAdapter;
 
     public WatchLaterFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
@@ -40,7 +40,7 @@ public class WatchLaterFragment extends Fragment implements LoaderManager.Loader
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_watch_later, container, false);
-        mLaterAdapter = new WatchLaterAdapter(getContext(), null, this);
+        mLaterAdapter = new NewsAdapter(getContext(), null, this);
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
         mRecycleView = (RecyclerView) rootView.findViewById(R.id.later_recycle_view);
@@ -49,7 +49,6 @@ public class WatchLaterFragment extends Fragment implements LoaderManager.Loader
         getActivity().getSupportLoaderManager().initLoader(100, null, this);
         return rootView;
     }
-
 
 
     @Override
@@ -95,15 +94,12 @@ public class WatchLaterFragment extends Fragment implements LoaderManager.Loader
 
     @Override
     public void onClick(String url) {
-//        Intent i = new Intent(getContext(), WebViewActivity.class);
-//        i.putExtra(Intent.EXTRA_TEXT, url);
-//        startActivity(i);
+        Intent i = new Intent(getContext(), WebViewActivity.class);
+        i.putExtra(Intent.EXTRA_TEXT, url);
+        startActivity(i);
 
     }
 
 
-    public void restartLoader() {
-        getActivity().getSupportLoaderManager().restartLoader(0, null, this);
 
-    }
 }

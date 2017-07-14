@@ -235,9 +235,25 @@ public final class NewsProvider extends android.content.ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        throw new RuntimeException("We are not implementing update ");
-    }
 
+        int mRowsUpdated = 0;
+   switch (sUriMatcher.match(uri)) {
 
+       case CODE_NEWS:
+           mRowsUpdated = mOpenHelper.getWritableDatabase().update(
+                   NewsContract.NewsnEntry.TABLE_NAME,
+                   values,
+                   selection,
+                   selectionArgs);
 
-}
+           break;
+       default:
+           throw new UnsupportedOperationException("Unknown uri: " + uri);
+
+   }
+        if (mRowsUpdated != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+   return mRowsUpdated;
+
+   }}

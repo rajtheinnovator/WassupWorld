@@ -44,7 +44,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     public static final int SYNC_INTERVAL = 60 * 30;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
-   private  List<Sources> sources=new ArrayList<>();
+    private List<Sources> sources = new ArrayList<>();
 
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -62,7 +62,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
             @Override
             public void onResponse(Call<ResultSources> call, Response<ResultSources> response) {
-               sources = response.body().getSources();
+                sources = response.body().getSources();
                 Vector<ContentValues> cVVector = new Vector<>(sources.size());
                 for (Sources item : sources) {
                     String category = item.getCategory();
@@ -87,7 +87,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 if (cVVector.size() > 0) {
                     ContentValues[] cvArray = new ContentValues[cVVector.size()];
                     cVVector.toArray(cvArray);
-                    getContext().getContentResolver().delete(NewsContract.SourcesEntry.CONTENT_URI, null,null);
+                    getContext().getContentResolver().delete(NewsContract.SourcesEntry.CONTENT_URI, null, null);
 
                     getContext().getContentResolver().bulkInsert(NewsContract.SourcesEntry.CONTENT_URI, cvArray);
 
@@ -96,11 +96,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
             @Override
             public void onFailure(Call<ResultSources> call, Throwable t) {
-
+                int x = 0;
+                x++;
             }
         });
 
-       for(final Sources source:sources){
+        for (final Sources source : sources) {
 
             Call<ResultNews> callNews = apiService.getNews("d9ebed9cf5694022bfa2bbe3e9b5d15a", source.getId());
 
@@ -140,19 +141,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                         getContext().getContentResolver().bulkInsert(NewsContract.NewsnEntry.CONTENT_URI, cvArray);
 
 
-
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ResultNews> call, Throwable t) {
-
+                    int x = 0;
+                    x++;
                 }
             });
         }
         getContext().getContentResolver().delete(NewsContract.NewsnEntry.CONTENT_URI,
                 NewsContract.NewsnEntry.COLUMN_DATE + " <= ?",
-                new String[]{beforetodays()+""});
+                new String[]{getDateBefore(2) + ""});
 
     }
 
@@ -164,15 +165,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             Date date = null;
             try {
                 date = dateFormat.parse(d);
+                Date today = new Date();
+                if (date.after(today)) {
+                    date = getDateBefore(1);
+                }
             } catch (ParseException e) {
                 Log.e("ayat", e.getErrorOffset() + "");
                 return 0;
             }
-            long unixTime = (long) date.getTime() /1000;
+            long unixTime = (long) date.getTime() / 1000;
             return unixTime;
         } else {
             Log.e("ayat", "string date equal null" + "");
-            return 0;
+            return getUnixTimeBefore(1);
         }
     }
 
@@ -222,13 +227,22 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
         return newAccount;
     }
-public long beforetodays(){
-    Calendar cal = Calendar.getInstance();
-    cal.add(Calendar.DATE, -2);
-    Date date=cal.getTime();
-    long unixTime = (long) date.getTime() /1000;
-    return unixTime;
-}
+
+    public Date getDateBefore(int days) {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -days);
+        Date date = cal.getTime();
+        return date;
+    }
+
+    public long getUnixTimeBefore(int days) {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -days);
+        Date date = cal.getTime();
+        long unixTime = (long) date.getTime() / 1000;
+        return unixTime;
+    }
+
     public static void configurePeriodicSync(Context context, int syncInterval, int flexTime) {
         Account account = getSyncAccount(context);
         String authority = context.getString(R.string.content_authority);

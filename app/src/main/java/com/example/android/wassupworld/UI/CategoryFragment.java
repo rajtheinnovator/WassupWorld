@@ -1,6 +1,7 @@
 package com.example.android.wassupworld.UI;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,6 +21,9 @@ public class CategoryFragment extends Fragment implements CategoryAdapter.CatAda
     private RecyclerView mRecycleView;
     private GridLayoutManager mLayoutManager;
     private CategoryAdapter mCategoryAdapter;
+    public static final String TYPE_KEY = "type";
+    public static final String TYPE_VALUE = "value";
+    public static final String CATEGORY = "category";
 
 
     public CategoryFragment() {
@@ -72,7 +76,11 @@ public class CategoryFragment extends Fragment implements CategoryAdapter.CatAda
     }
 
     @Override
-    public void onClick(String url) {
+    public void onClick(String category) {
+        Intent intent = new Intent(getActivity(), SourceNewsActivity.class);
+        intent.putExtra(TYPE_KEY, CATEGORY);
+        intent.putExtra(TYPE_VALUE, category);
+        startActivity(intent);
 
     }
 }

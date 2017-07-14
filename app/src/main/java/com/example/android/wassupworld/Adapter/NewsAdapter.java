@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -155,7 +156,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsAdapterVie
 
 
             if (v.getId() == R.id.button_watch_later_news) {
-                 ContentValues itemValues = new ContentValues();
+                ContentValues itemValues = new ContentValues();
 
                 itemValues.put(NewsContract.WatchLaterEntry.COLUMN_CATEGORY, mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_SOURCE)));
                 itemValues.put(NewsContract.WatchLaterEntry.COLUMN_AUTHOR, mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_AUTHOR)));
@@ -169,11 +170,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsAdapterVie
 
                 mContext.getContentResolver().insert(NewsContract.WatchLaterEntry.CONTENT_URI, itemValues);
 
+            } else if (v.getId() == R.id.cv_news) {
+                String url = mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_URL));
+                mClickHandler.onClick(url);
             }
-            else if(v.getId() == R.id.button_watch_later_news) {
-            String url = mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_URL));
-            mClickHandler.onClick(url);
-        }
 
         }
     }

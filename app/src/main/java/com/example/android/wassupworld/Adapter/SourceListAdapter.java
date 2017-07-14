@@ -24,20 +24,20 @@ import java.util.Locale;
  * Created by dell on 7/6/2017.
  */
 
-public class WatchLaterAdapter extends RecyclerView.Adapter<WatchLaterAdapter.WatchLaterAdapterViewHolder> {
+public class SourceListAdapter extends RecyclerView.Adapter<SourceListAdapter.SourceListAdapterViewHolder> {
     private Cursor mCursor;
     private final Context mContext;
 
-    final private WatchLaterAdapterOnClickHandler mClickHandler;
+    final private SourceListAdapterOnClickHandler mClickHandler;
 
     /**
      * The interface that receives onClick messages.
      */
-    public interface WatchLaterAdapterOnClickHandler {
+    public interface SourceListAdapterOnClickHandler {
         void onClick(String url);
     }
 
-    public WatchLaterAdapter(Context context, Cursor cursor, WatchLaterAdapterOnClickHandler clickHandler) {
+    public SourceListAdapter(Context context, Cursor cursor, SourceListAdapterOnClickHandler clickHandler) {
         mContext = context;
         mCursor = cursor;
         this.mClickHandler = clickHandler;
@@ -50,17 +50,17 @@ public class WatchLaterAdapter extends RecyclerView.Adapter<WatchLaterAdapter.Wa
     }
 
     @Override
-    public WatchLaterAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SourceListAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.later_list_item, parent, false);
 
         view.setFocusable(true);
 
-        return new WatchLaterAdapterViewHolder(view);
+        return new SourceListAdapterViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(WatchLaterAdapterViewHolder holder, int position) {
+    public void onBindViewHolder(SourceListAdapterViewHolder holder, int position) {
         mCursor.moveToPosition(position);
         String auther = mCursor.getString(mCursor.getColumnIndex(NewsContract.WatchLaterEntry.COLUMN_AUTHOR));
         String title = mCursor.getString(mCursor.getColumnIndex(NewsContract.WatchLaterEntry.COLUMN_TITLE));
@@ -112,7 +112,7 @@ public class WatchLaterAdapter extends RecyclerView.Adapter<WatchLaterAdapter.Wa
         notifyDataSetChanged();
     }
 
-    class WatchLaterAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class SourceListAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final ImageView laterImageView;
         final TextView descriptionTextView;
         final TextView titleTextView;
@@ -123,7 +123,7 @@ public class WatchLaterAdapter extends RecyclerView.Adapter<WatchLaterAdapter.Wa
         final ImageButton watchLaterButton;
 
 
-        WatchLaterAdapterViewHolder(View view) {
+        SourceListAdapterViewHolder(View view) {
             super(view);
 
             laterImageView = (ImageView) view.findViewById(R.id.iv_later);
@@ -144,17 +144,12 @@ public class WatchLaterAdapter extends RecyclerView.Adapter<WatchLaterAdapter.Wa
          *
          * @param v the View that was clicked
          */
+
         @Override
         public void onClick(View v) {
-            int adapterPosition = getAdapterPosition();
-            mCursor.moveToPosition(adapterPosition);
-            int id = mCursor.getInt(mCursor.getColumnIndex(NewsContract.WatchLaterEntry._ID));
-            String args[] = {id + ""};
-            if (v.getId() == R.id.button_watch_later_later) {
 
-                mContext.getContentResolver().delete(NewsContract.WatchLaterEntry.CONTENT_URI, "_id =?", args);
-                notifyDataSetChanged();
-            }      //   mClickHandler.onClick(url);
+            String url = mCursor.getString(mCursor.getColumnIndex(NewsContract.SourcesEntry.COLUMN_URL));
+            mClickHandler.onClick(url);
         }
     }
 }
