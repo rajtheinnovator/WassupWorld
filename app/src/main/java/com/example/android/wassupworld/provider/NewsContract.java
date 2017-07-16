@@ -50,6 +50,8 @@ public class NewsContract {
 
         public static final String COLUMN_DATE = "date";
 
+        public static final String COLUMN_LATER = "later";
+
 
 
     }

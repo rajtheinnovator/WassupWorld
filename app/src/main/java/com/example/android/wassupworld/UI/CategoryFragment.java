@@ -41,7 +41,7 @@ public class CategoryFragment extends Fragment implements CategoryAdapter.CatAda
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_news_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_category, container, false);
         ArrayList<String> categoryList = new ArrayList<>();
         categoryList.add("General");
         categoryList.add("Sport");
@@ -56,7 +56,7 @@ public class CategoryFragment extends Fragment implements CategoryAdapter.CatAda
         mCategoryAdapter = new CategoryAdapter(getContext() , this,categoryList);
         int mNoOfColumns = Icons.calculateNoOfColumnsCatList(getContext());
         mLayoutManager = new GridLayoutManager(getContext(),mNoOfColumns);
-        mRecycleView = (RecyclerView) rootView.findViewById(R.id.news_list_recycle_view);
+        mRecycleView = (RecyclerView) rootView.findViewById(R.id.category_recycle_view);
         mRecycleView.setLayoutManager(mLayoutManager);
         mRecycleView.setAdapter(mCategoryAdapter);
 

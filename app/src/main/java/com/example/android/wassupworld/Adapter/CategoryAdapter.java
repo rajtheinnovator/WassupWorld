@@ -1,8 +1,7 @@
 package com.example.android.wassupworld.Adapter;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,7 +56,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         return new CategoryAdapterViewHolder(view);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
     @Override
     public void onBindViewHolder(CategoryAdapterViewHolder holder, int position) {
 
@@ -65,7 +64,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         holder.titleTextView.setText(title.toUpperCase());
         int x=Icons.getCategroyColor(title);
         holder.backgroundImageView.setImageResource(Icons.getCategroyIcon(title));
-        holder.layout.setBackgroundColor(mContext.getResources().getColor(x,null));
+        holder.layout.setBackgroundColor(ContextCompat.getColor(mContext,x));
 
 
     }

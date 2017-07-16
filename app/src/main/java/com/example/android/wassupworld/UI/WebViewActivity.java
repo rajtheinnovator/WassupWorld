@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
 
@@ -35,6 +36,8 @@ public class WebViewActivity extends AppCompatActivity {
                     CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
                     builder.addDefaultShareMenuItem();
                     builder.setShowTitle(true);
+                    builder.enableUrlBarHiding();
+                    builder.setSecondaryToolbarColor(ContextCompat.getColor(WebViewActivity.this, R.color.colorAccent));
                     builder.setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back));
                     CustomTabsIntent customTabsIntent = builder.build();
                     customTabsIntent.launchUrl(this, Uri.parse(url));

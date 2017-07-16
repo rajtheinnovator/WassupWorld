@@ -37,6 +37,7 @@ public class NewsDatabase extends SQLiteOpenHelper {
                         NewsnEntry.COLUMN_TITLE + " TEXT , " +
                         NewsnEntry.COLUMN_URL + " TEXT , " +
                         NewsnEntry.COLUMN_URL_TO_IMAGE + " TEXT , " +
+                        NewsnEntry.COLUMN_LATER + " INTEGER DEFAULT 0 , " +
 
                 " UNIQUE (" + NewsnEntry.COLUMN_TITLE + ") ON CONFLICT REPLACE);";
 
@@ -56,6 +57,7 @@ public class NewsDatabase extends SQLiteOpenHelper {
                         NewsContract.WatchLaterEntry.COLUMN_TITLE + " TEXT , " +
                         NewsContract.WatchLaterEntry.COLUMN_URL + " TEXT , " +
                         NewsContract.WatchLaterEntry.COLUMN_URL_TO_IMAGE + " TEXT , " +
+
                         " UNIQUE (" + NewsContract.WatchLaterEntry.COLUMN_TITLE + ") ON CONFLICT REPLACE);";
         ;
 

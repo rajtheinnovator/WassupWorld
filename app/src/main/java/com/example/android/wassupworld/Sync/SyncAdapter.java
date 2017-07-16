@@ -7,6 +7,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
@@ -45,13 +46,27 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public static final int SYNC_INTERVAL = 60 * 30;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
     private List<Sources> sources = new ArrayList<>();
+    private final static String ACTION = "com.example.android.wassupworld.Sync.SyncStatus";
+    private final static String SYNCING_STATUS = "syncing";
+    private final static String RUNNING = "running";
+    private final static String FAILED = "failed";
+    public Context mContext;
+    private final static String STOPPING = "stopping";
+    public static int COLUMN_LATER_DEFAULT=0;
 
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
+        mContext = context;
     }
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
+        Log.d("ayat",  "on perform called");
+
+        Intent intent = new Intent();
+        intent.setAction(ACTION);
+        intent.putExtra(SYNCING_STATUS, RUNNING);
+        mContext.sendBroadcast(intent);
         String language = "en";
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
@@ -63,6 +78,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             @Override
             public void onResponse(Call<ResultSources> call, Response<ResultSources> response) {
                 sources = response.body().getSources();
+                Log.e("ayat", sources.size()+ " sources get");
                 Vector<ContentValues> cVVector = new Vector<>(sources.size());
                 for (Sources item : sources) {
                     String category = item.getCategory();
@@ -72,7 +88,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     String uri = item.getUrl();
                     String urlToImage = item.getUrlToImage();
                     String id = item.getId();
-                    ContentValues itemValues = new ContentValues();
+                     ContentValues itemValues = new ContentValues();
 
                     itemValues.put(NewsContract.SourcesEntry.COLUMN_CATEGORY, category);
                     itemValues.put(NewsContract.SourcesEntry.COLUMN_COUNTRYY, country);
@@ -85,9 +101,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     cVVector.add(itemValues);
                 }
                 if (cVVector.size() > 0) {
+                    Log.e("ayat",  "sorce  added"+cVVector.size());
+
                     ContentValues[] cvArray = new ContentValues[cVVector.size()];
                     cVVector.toArray(cvArray);
-                    getContext().getContentResolver().delete(NewsContract.SourcesEntry.CONTENT_URI, null, null);
+                    int deleted=    getContext().getContentResolver().delete(NewsContract.SourcesEntry.CONTENT_URI, null, null);
+                    Log.e("ayat",  "sorce  deleted"+deleted);
 
                     getContext().getContentResolver().bulkInsert(NewsContract.SourcesEntry.CONTENT_URI, cvArray);
 
@@ -96,8 +115,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
             @Override
             public void onFailure(Call<ResultSources> call, Throwable t) {
-                int x = 0;
-                x++;
+                Log.e("ayat", t.getMessage()+ " failed to add sources");
+                Intent intent = new Intent();
+                intent.setAction(ACTION);
+                intent.putExtra(SYNCING_STATUS, FAILED);
+                mContext.sendBroadcast(intent);
             }
         });
 
@@ -112,7 +134,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 public void onResponse(Call<ResultNews> call, Response<ResultNews> response) {
                     List<News> news = response.body().getArticles();
                     Vector<ContentValues> cVVector = new Vector<ContentValues>(news.size());
+
                     for (News item : news) {
+                        Log.e("ayat", source.getName()+ "get news");
+
+
                         String auther = item.getAuthor();
                         String title = item.getTitle();
                         String des = item.getDescription();
@@ -131,14 +157,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                         itemValues.put(NewsContract.NewsnEntry.COLUMN_URL, uri);
                         itemValues.put(NewsContract.NewsnEntry.COLUMN_DESCRIPTION, des);
                         itemValues.put(NewsContract.NewsnEntry.COLUMN_CATEGORY, source.getCategory());
+                        itemValues.put(NewsContract.NewsnEntry.COLUMN_LATER, COLUMN_LATER_DEFAULT);
 
                         cVVector.add(itemValues);
                     }
                     if (cVVector.size() > 0) {
                         ContentValues[] cvArray = new ContentValues[cVVector.size()];
                         cVVector.toArray(cvArray);
-
-                        getContext().getContentResolver().bulkInsert(NewsContract.NewsnEntry.CONTENT_URI, cvArray);
+                        int added=     getContext().getContentResolver().bulkInsert(NewsContract.NewsnEntry.CONTENT_URI, cvArray);
+                        Log.e("ayat", added + "number of added news");
 
 
                     }
@@ -146,15 +173,23 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
                 @Override
                 public void onFailure(Call<ResultNews> call, Throwable t) {
-                    int x = 0;
-                    x++;
+                    Log.e("ayat", t.getMessage()+ " failed to add news");
+                    Intent intent = new Intent();
+                    intent.setAction(ACTION);
+                    intent.putExtra(SYNCING_STATUS, FAILED);
+                    mContext.sendBroadcast(intent);
                 }
             });
         }
-        getContext().getContentResolver().delete(NewsContract.NewsnEntry.CONTENT_URI,
-                NewsContract.NewsnEntry.COLUMN_DATE + " <= ?",
-                new String[]{getDateBefore(2) + ""});
 
+
+        int deleted = getContext().getContentResolver().delete(NewsContract.NewsnEntry.CONTENT_URI,
+                NewsContract.NewsnEntry.COLUMN_DATE + " <= ?",
+                new String[]{getUnixTimeBefore(2) + ""});
+        Log.e("ayat", deleted + "number of deleted news");
+
+        intent.putExtra(SYNCING_STATUS, STOPPING);
+        mContext.sendBroadcast(intent);
     }
 
     private long getUnixTime(String dateString) {
@@ -182,6 +217,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     public static void syncImmediately(Context context) {
+        Log.e("ayat", "syncImmediately");
         Bundle bundle = new Bundle();
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);

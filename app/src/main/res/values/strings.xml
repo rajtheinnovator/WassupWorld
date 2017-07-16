@@ -17,5 +17,8 @@
     <string name="action_explore">Explore</string>
     <string name="no_internet">No Internt Connection</string>
     <string name="retry_string">RETRY</string>
-
+    <string name="refresh_fragment">Pull to Refresh</string>
+<string name="added_to_read_later">Added to Read Later </string>
+    <string name="deleted_from_read_later">Deleted from Read Later </string>
+    <string name="no_search_result">No results found</string>
 </resources>

@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -22,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent"
+
             android:foreground="@android:color/transparent"
             app:layout_scrollFlags="scroll|enterAlways">
 
@@ -49,7 +49,7 @@
                 app:search_navigation_icon="@drawable/ic_search_black_24dp"
                 app:search_shadow="false"
 
-                app:search_version_margins="menu_item" />
+               app:search_version="toolbar" />
 
 
         </FrameLayout>
@@ -58,21 +58,26 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
 
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="match_parent"
+         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-        <FrameLayout
-            android:id="@+id/fragment_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+            <FrameLayout
+                android:id="@+id/fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                />
+
     </android.support.v4.widget.SwipeRefreshLayout>
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_gravity="bottom|end"
+    android:background="@android:color/transparent"
+    android:id="@+id/coordinator_layout_contatiner"
     android:orientation="vertical"
     android:layout_height="wrap_content">
     <android.support.design.widget.CoordinatorLayout

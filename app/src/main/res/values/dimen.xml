@@ -4,4 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="item_margin">8dp</dimen>
     <dimen name="column_width">80dp</dimen>
+    <dimen name="offset_y">80dp</dimen>
+    <dimen name="offset_y_news">200dp</dimen>
 </resources>

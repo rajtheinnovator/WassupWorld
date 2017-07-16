@@ -2,6 +2,7 @@ package com.example.android.wassupworld.Utils;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.example.android.wassupworld.R;
 
@@ -240,6 +241,13 @@ public class Icons {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         int noOfColumns = (int) (dpWidth / 150);
+        return noOfColumns;
+    }
+    public static int calculateNoOfColumnsNewsList(Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        Log.e("ayat",dpWidth+"");
+        int noOfColumns = (int) (dpWidth / 355);
         return noOfColumns;
     }
     public static int getCategroyIcon(String title) {

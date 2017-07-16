@@ -14,15 +14,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.android.wassupworld.Adapter.NewsAdapter;
+import com.example.android.wassupworld.Adapter.LaterAdapter;
 import com.example.android.wassupworld.R;
 import com.example.android.wassupworld.provider.NewsContract;
 
-public class WatchLaterFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, NewsAdapter.AdapterOnClickHandler {
+public class WatchLaterFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, LaterAdapter.LaterAdapterOnClickHandler {
 
     private RecyclerView mRecycleView;
     private RecyclerView.LayoutManager mLayoutManager;
-    private NewsAdapter mLaterAdapter;
+    private LaterAdapter mLaterAdapter;
 
     public WatchLaterFragment() {
         // Required empty public constructor
@@ -40,7 +40,7 @@ public class WatchLaterFragment extends Fragment implements LoaderManager.Loader
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_watch_later, container, false);
-        mLaterAdapter = new NewsAdapter(getContext(), null, this);
+        mLaterAdapter = new LaterAdapter(getContext(), null, this);
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
         mRecycleView = (RecyclerView) rootView.findViewById(R.id.later_recycle_view);
@@ -93,12 +93,22 @@ public class WatchLaterFragment extends Fragment implements LoaderManager.Loader
     }
 
     @Override
-    public void onClick(String url) {
-        Intent i = new Intent(getContext(), WebViewActivity.class);
-        i.putExtra(Intent.EXTRA_TEXT, url);
-        startActivity(i);
+    public void onClick(String url,int tag) {
+        if(tag==0){
+            Intent i = new Intent(getContext(), WebViewActivity.class);
+            i.putExtra(Intent.EXTRA_TEXT, url);
+            startActivity(i);
 
+        }
+        else {
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("text/plain");
+            i.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
+            i.putExtra(Intent.EXTRA_TEXT, url);
+            startActivity(Intent.createChooser(i, "Share URL"));
+        }
     }
+
 
 
 
