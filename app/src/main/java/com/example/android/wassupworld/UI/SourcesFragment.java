@@ -30,10 +30,8 @@ public class SourcesFragment extends Fragment implements LoaderManager.LoaderCal
     public static final String TYPE_VALUE = "value";
     public static final String SOURCE = "source";
     private final static String FAILED = "failed";
-    private final static String ACTION = "com.example.android.wassupworld.Sync.SyncStatus";
     private final static String SYNCING_STATUS = "syncing";
     private final static String RUNNING = "running";
-    private final static String STOPPING = "stopping";
     public ProgressBar progressBar;
     public TextView mEmptyListTextView;
     private RecyclerView mRecycleView;

@@ -69,7 +69,7 @@ public class ListProvider implements RemoteViewsService.RemoteViewsFactory {
                 FORECAST_COLUMNS,
                 null,
                 null,
-                NewsContract.NewsnEntry.COLUMN_DATE + " DESC LIMIT 5");
+                NewsContract.NewsnEntry.COLUMN_DATE + " DESC LIMIT 10");
 
 
         Binder.restoreCallingIdentity(identityToken);
@@ -104,7 +104,7 @@ public class ListProvider implements RemoteViewsService.RemoteViewsFactory {
         String date = data.getString(INDEX_DATE);
         String url = data.getString(INDEX_URL);
         Bitmap image = null;
-        if (!TextUtils.isEmpty(source))
+        if (!TextUtils.isEmpty(urlImage))
             try {
                 image = Picasso.with(context).load(urlImage).get();
             } catch (IOException e) {
@@ -118,6 +118,7 @@ public class ListProvider implements RemoteViewsService.RemoteViewsFactory {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
             setRemoteContentDescription(views, titie);
         }
+        if (!TextUtils.isEmpty(titie))
         views.setTextViewText(R.id.tv_news_title, titie);
 
         Intent i = new Intent();

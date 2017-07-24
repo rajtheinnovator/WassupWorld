@@ -9,10 +9,11 @@
         android:id="@+id/iv_widget_news"
         android:layout_width="match_parent"
         android:layout_height="170dp"
+        android:background="@color/grey"
         android:contentDescription="@string/news_image"
         android:foreground="@drawable/grad_widget"
         android:scaleType="fitXY"
-        android:src="@drawable/splash_screen" />
+        tools:src="@drawable/splash_screen" />
 
     <TextView
         android:id="@+id/tv_news_title"

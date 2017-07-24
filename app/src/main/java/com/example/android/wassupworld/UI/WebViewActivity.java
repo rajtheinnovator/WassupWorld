@@ -44,6 +44,7 @@ public class WebViewActivity extends AppCompatActivity {
                     builder.addDefaultShareMenuItem();
                     builder.setShowTitle(true);
                     builder.enableUrlBarHiding();
+                    builder.setStartAnimations(WebViewActivity.this, android.R.anim.fade_in, R.anim.slide_out_left);
                     builder.setSecondaryToolbarColor(ContextCompat.getColor(WebViewActivity.this, R.color.colorAccent));
                     builder.setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow));
                     CustomTabsIntent customTabsIntent = builder.build();

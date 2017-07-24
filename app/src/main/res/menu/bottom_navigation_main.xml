@@ -5,7 +5,7 @@
         android:id="@+id/action_lastet"
         android:enabled="true"
         android:icon="@drawable/newspaper"
-        android:title="@string/action_lastet"
+        android:title="@string/action_latest"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_sources"

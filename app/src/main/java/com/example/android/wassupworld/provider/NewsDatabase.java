@@ -14,7 +14,7 @@ public class NewsDatabase extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "newsdata.db";
 
 
-    private NewsDatabase(Context context) {
+    public NewsDatabase(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
 
     }

@@ -50,11 +50,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private final static String ACTION = "com.example.android.wassupworld.Sync.SyncStatus";
     private final static String SYNCING_STATUS = "syncing";
     private final static String RUNNING = "running";
-    private final static String FAILED = "failed";
     private final static String STOPPING = "stopping";
     public static int COLUMN_LATER_DEFAULT = 0;
     public Context mContext;
-    private List<Sources> sources = new ArrayList<>();
+
 
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);

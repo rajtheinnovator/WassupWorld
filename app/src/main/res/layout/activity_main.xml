@@ -7,10 +7,8 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
-
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/transparent"
@@ -21,14 +19,12 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent"
-
             android:foreground="@android:color/transparent"
             app:layout_scrollFlags="scroll|enterAlways">
 
             <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/toolbar"
-
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@android:color/transparent"
@@ -39,17 +35,14 @@
                 android:id="@+id/searchView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 android:background="@android:color/transparent"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:search_elevation="0dp"
-
                 app:search_hint="@string/search_hint"
                 app:search_hint_color="@color/colorAccent"
                 app:search_navigation_icon="@drawable/ic_search_black_24dp"
                 app:search_shadow="false"
-
-               app:search_version="toolbar" />
+                app:search_version="toolbar" />
 
 
         </FrameLayout>
@@ -58,42 +51,40 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-
         android:layout_height="match_parent"
-         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
-
-            <FrameLayout
-                android:id="@+id/fragment_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                />
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_gravity="bottom|end"
-    android:background="@android:color/transparent"
-    android:id="@+id/coordinator_layout_contatiner"
-    android:orientation="vertical"
-    android:layout_height="wrap_content">
-    <android.support.design.widget.CoordinatorLayout
+    <LinearLayout
+        android:id="@+id/coordinator_layout_contatiner"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/placeSnackBar"/>
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:background="@color/colorPrimary"
-        app:itemIconTint="@drawable/selector"
-        app:itemTextColor="@drawable/selector"
-        app:menu="@menu/bottom_navigation_main" />
-</LinearLayout>
+        android:background="@android:color/transparent"
+        android:orientation="vertical">
+
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/placeSnackBar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="bottom|end"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            app:itemIconTint="@drawable/selector"
+            app:itemTextColor="@drawable/selector"
+            app:menu="@menu/bottom_navigation_main" />
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

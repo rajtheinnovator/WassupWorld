@@ -16,8 +16,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.example.android.wassupworld.Adapter.NewsAdapter;
 import com.example.android.wassupworld.R;
@@ -29,19 +29,18 @@ public class NewsListFragment extends Fragment implements LoaderManager.LoaderCa
     public static final String TYPE_KEY = "type";
     public static final String TYPE_VALUE = "value";
     public static final String SOURCE = "source";
-    private final static String FAILED = "failed";
     private final static String ACTION = "com.example.android.wassupworld.Sync.SyncStatus";
     private final static String SYNCING_STATUS = "syncing";
     private final static String RUNNING = "running";
     private final static String STOPPING = "stopping";
     public ProgressBar progressBar;
-    public TextView mEmptyListTextView;
+
     public SyncReceiver myReceiver;
     float offset;
     private RecyclerView mRecycleView;
     private RecyclerView.LayoutManager mLayoutManager;
     private NewsAdapter mNewsAdapter;
-    private RecyclerViewUtils.ShowHideToolbarOnScrollingListener showHideToolbarListener;
+    private LinearLayout mEmptyLayout;
 
     public NewsListFragment() {
         // Required empty public constructor
@@ -65,7 +64,7 @@ public class NewsListFragment extends Fragment implements LoaderManager.LoaderCa
         filter.addAction(ACTION);
         getActivity().registerReceiver(myReceiver, filter);
         progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar_news);
-        mEmptyListTextView = (TextView) rootView.findViewById(R.id.empty_list_text_view_news);
+        mEmptyLayout = (LinearLayout) rootView.findViewById(R.id.ll_empty_latest);
 
         mNewsAdapter = new NewsAdapter(getContext(), null, this);
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -116,13 +115,13 @@ public class NewsListFragment extends Fragment implements LoaderManager.LoaderCa
         if (data.getCount() == 0) {
             Log.e("ayat", " cursor data zero");
             mRecycleView.setVisibility(View.GONE);
-            mEmptyListTextView.setVisibility(View.VISIBLE);
+            mEmptyLayout.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
         } else {
             Log.e("ayat", " cursor " + data.getCount());
             mNewsAdapter.swapCursor(data);
             mRecycleView.setVisibility(View.VISIBLE);
-            mEmptyListTextView.setVisibility(View.GONE);
+            mEmptyLayout.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
         }
     }
@@ -177,15 +176,14 @@ public class NewsListFragment extends Fragment implements LoaderManager.LoaderCa
                 if (extras.get(SYNCING_STATUS).equals(RUNNING)) {
                     if (mNewsAdapter.getItemCount() == 0) {
                         progressBar.setVisibility(View.VISIBLE);
-                        mEmptyListTextView.setVisibility(View.GONE);
+                        mEmptyLayout.setVisibility(View.GONE);
                     }
                     Log.e("ayat", "sync running");
+                } else if (extras.get(SYNCING_STATUS).equals(STOPPING)) {
+                    Log.e("ayat", "sync stopped fragment");
+                    mNewsAdapter.notifyDataSetChanged();
                 }
-            } else if (extras.get(SYNCING_STATUS).equals(STOPPING)) {
-                Log.e("ayat", "sync stopped fragment");
-                mNewsAdapter.notifyDataSetChanged();
             }
-
         }
     }
 }

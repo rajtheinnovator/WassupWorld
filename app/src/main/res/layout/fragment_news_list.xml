@@ -1,23 +1,36 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
 
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-android:layout_height="match_parent"
-   >
-<TextView
-    android:id="@+id/empty_list_text_view_news"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:text="@string/refresh_fragment"
-    android:visibility="gone" />
-<ProgressBar
-    android:id="@+id/progress_bar_news"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:visibility="gone" />
+    <LinearLayout
+        android:id="@+id/ll_empty_latest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_refresh_black_24dp" />
+
+        <TextView
+            android:id="@+id/empty_list_text_view_news"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/refresh_fragment" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar_news"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/news_list_recycle_view"

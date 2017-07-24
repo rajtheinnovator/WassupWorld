@@ -3,21 +3,17 @@
     <string name="sync_account_type">wassupworld.example.com</string>
     <string name="content_authority">com.example.android.wassupworld.provider.provider</string>
 
-    <string name="text_favorites">Favorites</string>
-    <string name="text_schedules">Schedules</string>
-    <string name="text_music">Music</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="lastet">Lastet</string>
-    <string name="action_lastet">Lastet</string>
+    <string name="latest">Latest News</string>
+    <string name="action_latest">Latest News</string>
     <string name="action_sources">Sources</string>
     <string name="action_bookmark">View Later</string>
-    <string name="search_hint">Search in News</string>
     <string name="action_explore">Explore</string>
-    <string name="no_internet">No Internt Connection</string>
+
+    <string name="search_hint">Search in News</string>
+    <string name="no_internet">No Internet Connection</string>
     <string name="retry_string">RETRY</string>
-    <string name="refresh_fragment">Pull to Refresh</string>
+    <string name="refresh_fragment">Refresh to Retry</string>
     <string name="added_to_read_later">Added to Read Later </string>
     <string name="deleted_from_read_later">Deleted from Read Later </string>
     <string name="no_search_result">No results found</string>
@@ -28,4 +24,5 @@
     <string name="empty_widget">No News to View</string>
     <string name="news_image">News Image</string>
     <string name="category_image_des">Category Icon</string>
+    <string name="add_later">save to read later</string>
 </resources>

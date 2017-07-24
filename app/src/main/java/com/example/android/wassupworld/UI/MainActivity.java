@@ -13,15 +13,14 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 
-import com.example.android.wassupworld.Adapter.NewsAdapter;
 import com.example.android.wassupworld.R;
 import com.example.android.wassupworld.Sync.SyncAdapter;
 import com.example.android.wassupworld.Utils.BottomNavigationViewHelper;
@@ -35,14 +34,11 @@ public class MainActivity extends AppCompatActivity {
     public static final String SEARCH_KEY = "search";
     private final static String ACTION = "com.example.android.wassupworld.Sync.SyncStatus";
     private final static String SYNCING_STATUS = "syncing";
-    private final static String RUNNING = "running";
+
     private final static String STOPPING = "stopping";
     public SyncReceiver myReceiver;
     public SearchView mSearchView;
     public CoordinatorLayout mPlaceSankBar;
-    private boolean mTwoPane;
-    private NewsAdapter mNewsAdapter;
-    private LinearLayout mLinearLayout;
     private Fragment selectedFragment = null;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private BottomNavigationView bottomNavigationView;
@@ -55,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION);
         registerReceiver(myReceiver, filter);
-        mLinearLayout = (LinearLayout) findViewById(R.id.coordinator_layout_contatiner);
         mPlaceSankBar = (CoordinatorLayout) findViewById(R.id.placeSnackBar);
         final String PREFS_NAME = "MyPrefsFile";
 
@@ -191,32 +186,22 @@ public class MainActivity extends AppCompatActivity {
 
         Snackbar mySnackbar = Snackbar.make(findViewById(R.id.placeSnackBar),
                 R.string.no_internet, Snackbar.LENGTH_LONG);
-        mySnackbar.setActionTextColor(getResources().getColor(R.color.red));
+        mySnackbar.setActionTextColor(ContextCompat.getColor(MainActivity.this, R.color.red));
 
         mySnackbar.setAction(R.string.retry_string, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkInternet();
+                if (!isNetworkConnected())
+                    showSnackBar();
+                else {
+                    SyncAdapter.syncImmediately(MainActivity.this);
+
+                }
             }
         });
         mySnackbar.show();
     }
 
-    public void checkInternet() {
-        if (!isNetworkConnected())
-            showSnackBar();
-//        else {
-//            new Handler().postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                   if (selectedFragment instanceof NewsListFragment)
-//                        ((NewsListFragment) selectedFragment).restartLoader();
-//                    mSwipeRefreshLayout.setRefreshing(false);
-//                }
-//            }, 3000);
-//            ;
-//        }
-    }
 
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
