@@ -13,16 +13,26 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.example.android.wassupworld.Adapter.LaterAdapter;
 import com.example.android.wassupworld.R;
 import com.example.android.wassupworld.provider.NewsContract;
 
+import static android.R.attr.data;
+
 public class WatchLaterFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, LaterAdapter.LaterAdapterOnClickHandler {
 
+    public static final String TYPE_KEY = "type";
+    public static final String TYPE_VALUE = "value";
+    public static final String SOURCE = "source";
+    private ProgressBar progressBar;
+    private LinearLayout emptyLayout;
     private RecyclerView mRecycleView;
     private RecyclerView.LayoutManager mLayoutManager;
-    private LaterAdapter mLaterAdapter;
+    private LaterAdapter
+            mLaterAdapter;
 
     public WatchLaterFragment() {
         // Required empty public constructor
@@ -42,6 +52,8 @@ public class WatchLaterFragment extends Fragment implements LoaderManager.Loader
         View rootView = inflater.inflate(R.layout.fragment_watch_later, container, false);
         mLaterAdapter = new LaterAdapter(getContext(), null, this);
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar_later);
+        emptyLayout = (LinearLayout) rootView.findViewById(R.id.empty_layout_later);
 
         mRecycleView = (RecyclerView) rootView.findViewById(R.id.later_recycle_view);
         mRecycleView.setLayoutManager(mLayoutManager);
@@ -67,6 +79,9 @@ public class WatchLaterFragment extends Fragment implements LoaderManager.Loader
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
+        progressBar.setVisibility(View.VISIBLE);
+        mRecycleView.setVisibility(View.GONE);
+
         String sortOrder = NewsContract.WatchLaterEntry._ID + " DESC";
 
         if(id==100) {
@@ -83,8 +98,14 @@ public class WatchLaterFragment extends Fragment implements LoaderManager.Loader
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-        mLaterAdapter.swapCursor(data);
+        progressBar.setVisibility(View.GONE);
+        if (data.getCount() > 0) {
+            mLaterAdapter.swapCursor(data);
+            mRecycleView.setVisibility(View.VISIBLE);
+        } else {
+            emptyLayout.setVisibility(View.VISIBLE);
+            mRecycleView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -99,13 +120,17 @@ public class WatchLaterFragment extends Fragment implements LoaderManager.Loader
             i.putExtra(Intent.EXTRA_TEXT, url);
             startActivity(i);
 
-        }
-        else {
+        } else if (tag == 1) {
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");
             i.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
             i.putExtra(Intent.EXTRA_TEXT, url);
             startActivity(Intent.createChooser(i, "Share URL"));
+        } else {
+            Intent intent = new Intent(getActivity(), SourceNewsActivity.class);
+            intent.putExtra(TYPE_KEY, SOURCE);
+            intent.putExtra(TYPE_VALUE, data);
+            startActivity(intent);
         }
     }
 

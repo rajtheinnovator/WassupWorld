@@ -18,7 +18,14 @@
     <string name="no_internet">No Internt Connection</string>
     <string name="retry_string">RETRY</string>
     <string name="refresh_fragment">Pull to Refresh</string>
-<string name="added_to_read_later">Added to Read Later </string>
+    <string name="added_to_read_later">Added to Read Later </string>
     <string name="deleted_from_read_later">Deleted from Read Later </string>
     <string name="no_search_result">No results found</string>
+    <string name="no_news_found">No News found</string>
+    <string name="no_bookmark">Add articles to Read Later</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="empty_widget">No News to View</string>
+    <string name="news_image">News Image</string>
+    <string name="category_image_des">Category Icon</string>
 </resources>

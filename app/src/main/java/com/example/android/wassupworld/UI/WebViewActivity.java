@@ -22,6 +22,13 @@ public class WebViewActivity extends AppCompatActivity {
     private static final String SERVICE_ACTION = "android.support.customtabs.action.CustomTabsService";
     private static final String CHROME_PACKAGE = "com.android.chrome";
 
+    private static boolean isChromeCustomTabsSupported(@NonNull final Context context) {
+        Intent serviceIntent = new Intent(SERVICE_ACTION);
+        serviceIntent.setPackage(CHROME_PACKAGE);
+        List<ResolveInfo> resolveInfos = context.getPackageManager().queryIntentServices(serviceIntent, 0);
+        return !(resolveInfos == null || resolveInfos.isEmpty());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +45,7 @@ public class WebViewActivity extends AppCompatActivity {
                     builder.setShowTitle(true);
                     builder.enableUrlBarHiding();
                     builder.setSecondaryToolbarColor(ContextCompat.getColor(WebViewActivity.this, R.color.colorAccent));
-                    builder.setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back));
+                    builder.setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow));
                     CustomTabsIntent customTabsIntent = builder.build();
                     customTabsIntent.launchUrl(this, Uri.parse(url));
                     finish();
@@ -49,12 +56,5 @@ public class WebViewActivity extends AppCompatActivity {
             }
         }
 
-    }
-
-    private static boolean isChromeCustomTabsSupported(@NonNull final Context context) {
-        Intent serviceIntent = new Intent(SERVICE_ACTION);
-        serviceIntent.setPackage(CHROME_PACKAGE);
-        List<ResolveInfo> resolveInfos = context.getPackageManager().queryIntentServices(serviceIntent, 0);
-        return !(resolveInfos == null || resolveInfos.isEmpty());
     }
 }

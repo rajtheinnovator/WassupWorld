@@ -1,10 +1,11 @@
 package com.example.android.wassupworld.UI;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -15,6 +16,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -30,24 +32,29 @@ import java.util.ArrayList;
 import static com.example.android.wassupworld.R.id.searchView;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String SEARCH_KEY = "search";
+    private final static String ACTION = "com.example.android.wassupworld.Sync.SyncStatus";
+    private final static String SYNCING_STATUS = "syncing";
+    private final static String RUNNING = "running";
+    private final static String STOPPING = "stopping";
+    public SyncReceiver myReceiver;
+    public SearchView mSearchView;
+    public CoordinatorLayout mPlaceSankBar;
     private boolean mTwoPane;
     private NewsAdapter mNewsAdapter;
     private LinearLayout mLinearLayout;
     private Fragment selectedFragment = null;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private BottomNavigationView bottomNavigationView;
-    public static final String SEARCH_KEY = "search";
-
-
-   public SearchView mSearchView;
-    public CoordinatorLayout mPlaceSankBar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        myReceiver = new SyncReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION);
+        registerReceiver(myReceiver, filter);
         mLinearLayout = (LinearLayout) findViewById(R.id.coordinator_layout_contatiner);
         mPlaceSankBar = (CoordinatorLayout) findViewById(R.id.placeSnackBar);
         final String PREFS_NAME = "MyPrefsFile";
@@ -122,8 +129,8 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case R.id.action_sources:
                                 selectedFragment = new SourcesFragment();
-                                mSwipeRefreshLayout.setEnabled(false);
-                                 break;
+                                mSwipeRefreshLayout.setEnabled(true);
+                                break;
                             case R.id.action_bookmark:
                                 selectedFragment = new WatchLaterFragment();
                                 mSwipeRefreshLayout.setEnabled(false);
@@ -149,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
             selectedFragment = new NewsListFragment();
             mSwipeRefreshLayout.setEnabled(true);
         }
-        checkInternet();
         SyncAdapter.initializeSyncAdapter(this);
     }
 
@@ -172,12 +178,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
 
-
-        return super.onOptionsItemSelected(item);
-    }
 
     private void startSerachActivity(String query) {
         Intent intent = new Intent(MainActivity.this, SearchResultActivity.class);
@@ -223,18 +224,29 @@ public class MainActivity extends AppCompatActivity {
         return cm.getActiveNetworkInfo() != null;
     }
 
+
     private void refreshContent() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                SyncAdapter.syncImmediately(MainActivity.this);
-                if (selectedFragment instanceof NewsListFragment)
-                    ((NewsListFragment) selectedFragment).restartLoader();
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        }, 3000);
+        SyncAdapter.syncImmediately(MainActivity.this);
+
+
     }
 
+    public class SyncReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle extras = intent.getExtras();
 
 
+            if (extras != null) {
+
+                if (extras.get(SYNCING_STATUS).equals(STOPPING)) {
+                    Log.e("ayat", "sync stopped");
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+
+            }
+        }
+
+    }
 }

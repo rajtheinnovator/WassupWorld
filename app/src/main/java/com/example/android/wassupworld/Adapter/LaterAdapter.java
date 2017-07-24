@@ -30,19 +30,10 @@ import java.util.Locale;
  */
 
 public class LaterAdapter extends RecyclerView.Adapter<LaterAdapter.LaterAdapterViewHolder> {
-    private Cursor mCursor;
     private final Context mContext;
-    private int lastPosition = -1;
-
-
     final private LaterAdapterOnClickHandler mClickHandler;
-
-    /**
-     * The interface that receives onClick messages.
-     */
-    public interface LaterAdapterOnClickHandler {
-        void onClick(String url,int tag );
-    }
+    private Cursor mCursor;
+    private int lastPosition = -1;
 
     public LaterAdapter(Context context, Cursor cursor, LaterAdapterOnClickHandler clickHandler) {
         mContext = context;
@@ -128,9 +119,17 @@ public class LaterAdapter extends RecyclerView.Adapter<LaterAdapter.LaterAdapter
         super.onViewDetachedFromWindow(holder);
         ((LaterAdapterViewHolder)holder).itemView.clearAnimation();
     }
+
     public void swapCursor(Cursor newCursor) {
         mCursor = newCursor;
         notifyDataSetChanged();
+    }
+
+    /**
+     * The interface that receives onClick messages.
+     */
+    public interface LaterAdapterOnClickHandler {
+        void onClick(String url, int tag);
     }
 
     class LaterAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -157,6 +156,7 @@ public class LaterAdapter extends RecyclerView.Adapter<LaterAdapter.LaterAdapter
             view.setOnClickListener(this);
             shareButton = (ImageButton) view.findViewById(R.id.button_share_news);
             shareButton.setOnClickListener(this);
+            newsImageView.setOnClickListener(this);
         }
 
         /**
@@ -204,6 +204,9 @@ public class LaterAdapter extends RecyclerView.Adapter<LaterAdapter.LaterAdapter
                 String url = mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_URL));
                 mClickHandler.onClick(url,1);
 
+            } else if (v.getId() == R.id.iv_source_logo) {
+                String url = mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_SOURCE));
+                mClickHandler.onClick(url, 2);
             }
        }
   }}

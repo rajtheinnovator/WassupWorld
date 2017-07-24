@@ -6,9 +6,6 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by dell on 7/2/2017.
- */
 
 public class ApiClient {
 
@@ -16,7 +13,7 @@ public class ApiClient {
     private static Retrofit retrofit = null;
 
 
-    public static Retrofit getClient() {
+    public static <S> S getClient(Class<S> serviceClas) {
         if (retrofit==null) {
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(5, TimeUnit.MINUTES)
@@ -28,6 +25,6 @@ public class ApiClient {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
     }
-        return retrofit;
+        return retrofit.create(serviceClas);
     }}
 

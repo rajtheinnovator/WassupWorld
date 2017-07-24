@@ -18,36 +18,22 @@ import com.example.android.wassupworld.Utils.Icons;
 import com.example.android.wassupworld.provider.NewsContract;
 import com.squareup.picasso.Picasso;
 
-/**
- * Created by dell on 7/5/2017.
- */
 
 public class SourcesAdapter extends RecyclerView.Adapter<SourcesAdapter.SourcesAdapterViewHolder> {
 
 
-    private Cursor mCursor;
     private final Context mContext;
-    private float offset;
-    private int lastPosition = -1;
-
-
     final private AdapterOnClickHandlerSources mClickHandler;
-
-    /**
-     * The interface that receives onClick messages.
-     */
-    public interface AdapterOnClickHandlerSources {
-        void onClick(String source);
-    }
+    private Cursor mCursor;
+    private int lastPosition = -1;
 
     public SourcesAdapter(Context context, Cursor cursor, AdapterOnClickHandlerSources clickHandler) {
 
         mContext = context;
         mCursor = cursor;
-        this.mClickHandler = clickHandler;
-        offset = mContext.getResources().getDimensionPixelSize(R.dimen.offset_y);
-    }
+        mClickHandler = clickHandler;
 
+    }
 
     private void setAnimation(View viewToAnimate, int position) {
         // If the bound view wasn't previously displayed on screen, it's animated
@@ -61,7 +47,7 @@ public class SourcesAdapter extends RecyclerView.Adapter<SourcesAdapter.SourcesA
     @Override
     public void onViewDetachedFromWindow(SourcesAdapterViewHolder holder) {
         super.onViewDetachedFromWindow(holder);
-        ((SourcesAdapterViewHolder) holder).itemView.clearAnimation();
+        (holder).itemView.clearAnimation();
     }
 
     @Override
@@ -113,11 +99,18 @@ public class SourcesAdapter extends RecyclerView.Adapter<SourcesAdapter.SourcesA
 
     }
 
-
     @Override
     public int getItemCount() {
         if (null == mCursor) return 0;
         return mCursor.getCount();
+    }
+
+
+    /**
+     * The interface that receives onClick messages.
+     */
+    public interface AdapterOnClickHandlerSources {
+        void onClick(String source);
     }
 
     class SourcesAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

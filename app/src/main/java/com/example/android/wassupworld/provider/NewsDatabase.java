@@ -6,17 +6,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.android.wassupworld.provider.NewsContract.NewsnEntry;
 
-/**
- * Created by dell on 7/1/2017.
- */
+
 
 public class NewsDatabase extends SQLiteOpenHelper {
 
-    public static final int VERSION = 1;
-    static final String DATABASE_NAME = "newsdata.db";
+    private static final int VERSION = 1;
+    private static final String DATABASE_NAME = "newsdata.db";
 
 
-    public NewsDatabase(Context context) {
+    private NewsDatabase(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
 
     }
@@ -59,7 +57,6 @@ public class NewsDatabase extends SQLiteOpenHelper {
                         NewsContract.WatchLaterEntry.COLUMN_URL_TO_IMAGE + " TEXT , " +
 
                         " UNIQUE (" + NewsContract.WatchLaterEntry.COLUMN_TITLE + ") ON CONFLICT REPLACE);";
-        ;
 
 
         final String SQL_CREATE_SOURCES_TABLE = "CREATE TABLE " + NewsContract.SourcesEntry.TABLE_NAME + " (" +
@@ -73,7 +70,8 @@ public class NewsDatabase extends SQLiteOpenHelper {
                 NewsContract.SourcesEntry.COLUMN_ID + " TEXT , " +
                 NewsContract.SourcesEntry.COLUMN_NAME + " TEXT , " +
                 NewsContract.SourcesEntry.COLUMN_URL + " TEXT , " +
-                NewsContract.SourcesEntry.COLUMN_URL_TO_IMAGE + " TEXT ); ";
+                NewsContract.SourcesEntry.COLUMN_URL_TO_IMAGE + " TEXT , " +
+                " UNIQUE (" + NewsContract.SourcesEntry.COLUMN_ID + ") ON CONFLICT REPLACE);";
 
 
         db.execSQL(SQL_CREATE_NEWS_TABLE);

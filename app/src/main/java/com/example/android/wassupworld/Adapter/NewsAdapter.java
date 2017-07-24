@@ -32,19 +32,11 @@ import java.util.Locale;
  */
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsAdapterViewHolder> {
-    private Cursor mCursor;
     private final Context mContext;
-    float offset ;
-    private int lastPosition = -1;
-
     final private AdapterOnClickHandler mClickHandler;
-
-    /**
-     * The interface that receives onClick messages.
-     */
-    public interface AdapterOnClickHandler {
-        void onClick(String url,int tag);
-    }
+    float offset ;
+    private Cursor mCursor;
+    private int lastPosition = -1;
 
     public NewsAdapter(Context context, Cursor cursor, AdapterOnClickHandler clickHandler) {
         mContext = context;
@@ -52,6 +44,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsAdapterVie
 
         this.mClickHandler = clickHandler;
         offset = mContext.getResources().getDimensionPixelSize(R.dimen.offset_y);   }
+
     @Override
     public int getItemCount() {
         if (null == mCursor) return 0;
@@ -100,13 +93,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsAdapterVie
 
     }
 
-
     @Override
     public void onViewDetachedFromWindow(NewsAdapterViewHolder holder) {
         super.onViewDetachedFromWindow(holder);
         ((NewsAdapterViewHolder)holder).itemView.clearAnimation();
     }
-
 
     @Override
     public int getItemViewType(int position) {
@@ -125,6 +116,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsAdapterVie
         mCursor = newCursor;
         notifyDataSetChanged();
     }
+
     private void setAnimation(View viewToAnimate, int position)
     {
         // If the bound view wasn't previously displayed on screen, it's animated
@@ -136,6 +128,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsAdapterVie
         }
     }
 
+    /**
+     * The interface that receives onClick messages.
+     */
+    public interface AdapterOnClickHandler {
+        void onClick(String url, int tag);
+    }
 
     class NewsAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final ImageView newsImageView;
@@ -161,7 +159,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsAdapterVie
             watchLaterButton.setOnClickListener(this);
             shareButton = (ImageButton) view.findViewById(R.id.button_share_news);
             shareButton.setOnClickListener(this);
-
+            sourceImageView.setOnClickListener(this);
             view.setOnClickListener(this);
         }
 
@@ -232,6 +230,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsAdapterVie
                 String url = mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_URL));
                 mClickHandler.onClick(url,1);
 
+            } else if (v.getId() == R.id.iv_source_logo) {
+                String url = mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_SOURCE));
+                mClickHandler.onClick(url, 2);
             }
     }
 

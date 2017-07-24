@@ -20,18 +20,18 @@ import com.example.android.wassupworld.provider.NewsContract;
 
 public class SearchResultActivity extends AppCompatActivity implements NewsAdapter.AdapterOnClickHandler, LoaderManager.LoaderCallbacks<Cursor> {
 
+    public static final String SEARCH_KEY = "search";
     private RecyclerView mRecycleView;
     private RecyclerView.LayoutManager mLayoutManager;
     private NewsAdapter mNewsAdapter;
     private ProgressBar progressBar;
     private String mSearch;
     private LinearLayout emptyLayout;
-    public static final String SEARCH_KEY = "search";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_serch_result);
+        setContentView(R.layout.activity_search_result);
         progressBar = (ProgressBar) findViewById(R.id.result_progress_bar);
         Intent intent = getIntent();
         mSearch = intent.getStringExtra(SEARCH_KEY);
@@ -56,9 +56,10 @@ public class SearchResultActivity extends AppCompatActivity implements NewsAdapt
         progressBar.setVisibility(View.VISIBLE);
         mRecycleView.setVisibility(View.GONE);
         String sortOrder = NewsContract.NewsnEntry.COLUMN_DATE + " DESC";
-        final String sa1 = "%" + mSearch + "%";
-        String selection = NewsContract.NewsnEntry.COLUMN_DESCRIPTION + " LIKE  ? COLLATE NOCASE  ";
-        String selectionArgs[] = {sa1};
+        final String searchResult = "%" + mSearch + "%";
+        String selection = "(" + NewsContract.NewsnEntry.COLUMN_TITLE + " LIKE  ? COLLATE NOCASE ) " +
+                "OR (" + NewsContract.NewsnEntry.COLUMN_DESCRIPTION + " LIKE  ? COLLATE NOCASE)  ";
+        String selectionArgs[] = {searchResult, searchResult};
         if (id == 500) {
             return new CursorLoader(this,
                     NewsContract.NewsnEntry.CONTENT_URI,
