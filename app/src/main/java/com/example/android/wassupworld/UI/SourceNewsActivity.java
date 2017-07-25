@@ -17,6 +17,8 @@ import android.widget.ProgressBar;
 import com.example.android.wassupworld.Adapter.SourceListAdapter;
 import com.example.android.wassupworld.R;
 import com.example.android.wassupworld.provider.NewsContract;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 public class SourceNewsActivity extends AppCompatActivity implements SourceListAdapter.SourceListAdapterOnClickHandler, LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -31,7 +33,7 @@ public class SourceNewsActivity extends AppCompatActivity implements SourceListA
     private String mTypeName;
     private String mType;
     private ProgressBar progressBar;
-
+    private AdView mAdView;
     private LinearLayout emptyLayout;
 
     @Override
@@ -48,7 +50,9 @@ public class SourceNewsActivity extends AppCompatActivity implements SourceListA
         mRecycleView.setAdapter(mSourceListAdapter);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar_source_news);
         emptyLayout = (LinearLayout) findViewById(R.id.empty_layout_source_news);
-
+        mAdView = (AdView) findViewById(R.id.adView_source);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar_source_news);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);

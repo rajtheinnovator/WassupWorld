@@ -3,7 +3,7 @@
     <string name="sync_account_type">wassupworld.example.com</string>
     <string name="content_authority">com.example.android.wassupworld.provider.provider</string>
 
-
+    <string name="ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="latest">Latest News</string>
     <string name="action_latest">Latest News</string>
     <string name="action_sources">Sources</string>

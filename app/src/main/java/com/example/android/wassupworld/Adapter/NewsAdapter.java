@@ -127,7 +127,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsAdapterVie
             lastPosition = position;
         }
     }
-
     /**
      * The interface that receives onClick messages.
      */
@@ -195,7 +194,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsAdapterVie
                     int updated = mContext.getContentResolver().update(NewsContract.NewsnEntry.CONTENT_URI,
                             contentValues, NewsContract.NewsnEntry._ID + " = ?",
                             new String[]{id + ""});
-                  //  notifyItemRemoved(adapterPosition);
+                    //  notifyItemRemoved(adapterPosition);
                 } else {
 
                     ContentValues itemValues = new ContentValues();
@@ -218,7 +217,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsAdapterVie
                     int updated = mContext.getContentResolver().update(NewsContract.NewsnEntry.CONTENT_URI,
                             contentValues, NewsContract.NewsnEntry._ID + " = ?",
                             new String[]{id + ""});
-                 //   notifyItemInserted(adapterPosition);
+                    //   notifyItemInserted(adapterPosition);
                 }
             } else if (v.getId() == R.id.cv_news) {
                 String url = mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_URL));
@@ -234,6 +233,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsAdapterVie
                 String url = mCursor.getString(mCursor.getColumnIndex(NewsContract.NewsnEntry.COLUMN_SOURCE));
                 mClickHandler.onClick(url, 2);
             }
-    }
+        }
 
-}}
+    }
+}

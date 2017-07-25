@@ -17,6 +17,8 @@ import android.widget.ProgressBar;
 import com.example.android.wassupworld.Adapter.NewsAdapter;
 import com.example.android.wassupworld.R;
 import com.example.android.wassupworld.provider.NewsContract;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 public class SearchResultActivity extends AppCompatActivity implements NewsAdapter.AdapterOnClickHandler, LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -27,7 +29,7 @@ public class SearchResultActivity extends AppCompatActivity implements NewsAdapt
     private ProgressBar progressBar;
     private String mSearch;
     private LinearLayout emptyLayout;
-
+    private AdView mAdView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +50,9 @@ public class SearchResultActivity extends AppCompatActivity implements NewsAdapt
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Search Result for " + mSearch);
+        mAdView = (AdView) findViewById(R.id.adView_search);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
 
