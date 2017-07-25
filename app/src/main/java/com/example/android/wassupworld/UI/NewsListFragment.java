@@ -76,9 +76,6 @@ public class NewsListFragment extends Fragment implements LoaderManager.LoaderCa
         return rootView;
     }
 
-    public void setprogressVisible() {
-        progressBar.setVisibility(View.VISIBLE);
-    }
 
 
     @Override
@@ -138,8 +135,9 @@ public class NewsListFragment extends Fragment implements LoaderManager.LoaderCa
         if (tag == 0) {
             Intent i = new Intent(getContext(), WebViewActivity.class);
             i.putExtra(Intent.EXTRA_TEXT, data);
-            startActivity(i);
 
+            startActivity(i);
+            getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         } else if (tag == 1) {
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");

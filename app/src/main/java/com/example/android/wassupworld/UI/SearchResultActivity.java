@@ -95,8 +95,9 @@ public class SearchResultActivity extends AppCompatActivity implements NewsAdapt
         if (tag == 0) {
             Intent i = new Intent(SearchResultActivity.this, WebViewActivity.class);
             i.putExtra(Intent.EXTRA_TEXT, url);
-            startActivity(i);
 
+            startActivity(i);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         } else {
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");

@@ -110,7 +110,7 @@ public class SourceNewsActivity extends AppCompatActivity implements SourceListA
             Intent i = new Intent(SourceNewsActivity.this, WebViewActivity.class);
             i.putExtra(Intent.EXTRA_TEXT, url);
             startActivity(i);
-
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         } else {
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");

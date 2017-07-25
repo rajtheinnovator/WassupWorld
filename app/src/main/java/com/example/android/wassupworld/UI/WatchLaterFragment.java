@@ -119,7 +119,7 @@ public class WatchLaterFragment extends Fragment implements LoaderManager.Loader
             Intent i = new Intent(getContext(), WebViewActivity.class);
             i.putExtra(Intent.EXTRA_TEXT, url);
             startActivity(i);
-
+            getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         } else if (tag == 1) {
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");

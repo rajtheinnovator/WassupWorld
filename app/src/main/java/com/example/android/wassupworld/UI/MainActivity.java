@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private BottomNavigationView bottomNavigationView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SearchView.SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
@@ -165,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!TextUtils.isEmpty(searchWrd)) {
                     mSearchView.setQuery(searchWrd, false);
                     startSerachActivity(searchWrd);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
             }
 
