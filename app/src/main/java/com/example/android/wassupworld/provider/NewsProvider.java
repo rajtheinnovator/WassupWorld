@@ -15,9 +15,10 @@ import android.support.annotation.Nullable;
  */
 
 public final class NewsProvider extends android.content.ContentProvider {
-    public static final int CODE_NEWS = 100;
-    public static final int CODE_WATCH_LATER_NEWS = 105;
-    public static final int CODE_SOURCES = 110;
+
+    private static final int CODE_NEWS = 100;
+    private static final int CODE_WATCH_LATER_NEWS = 105;
+    private static final int CODE_SOURCES = 110;
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private NewsDatabase mOpenHelper;
 
@@ -48,7 +49,7 @@ public final class NewsProvider extends android.content.ContentProvider {
 
                 cursor = mOpenHelper.getReadableDatabase().query(
                         /* Table we are going to query */
-                        NewsContract.NewsnEntry.TABLE_NAME,
+                        NewsContract.NewsEntry.TABLE_NAME,
                          projection,
                         selection,
                         selectionArgs,
@@ -98,7 +99,7 @@ public final class NewsProvider extends android.content.ContentProvider {
     }
 
     @Override
-    public int bulkInsert(Uri uri, ContentValues[] values) {
+    public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
         int returnCount = 0;
@@ -108,7 +109,7 @@ public final class NewsProvider extends android.content.ContentProvider {
                 try {
                     for (ContentValues value : values) {
 
-                        long _id = db.insert(NewsContract.NewsnEntry.TABLE_NAME, null, value);
+                        long _id = db.insert(NewsContract.NewsEntry.TABLE_NAME, null, value);
                         if (_id != -1) {
                             returnCount++;
                         }
@@ -167,9 +168,9 @@ public final class NewsProvider extends android.content.ContentProvider {
             }
             case CODE_NEWS :{
 
-               id = db.insert(NewsContract.NewsnEntry.TABLE_NAME, null, values);
+                id = db.insert(NewsContract.NewsEntry.TABLE_NAME, null, values);
                 if (id > 0) {
-                    returnUri = ContentUris.withAppendedId(NewsContract.NewsnEntry.CONTENT_URI, id);
+                    returnUri = ContentUris.withAppendedId(NewsContract.NewsEntry.CONTENT_URI, id);
                 } else {throw new android.database.SQLException("Unknown uri: " + uri);
                 }
                 break;
@@ -201,7 +202,7 @@ public final class NewsProvider extends android.content.ContentProvider {
 
             case CODE_NEWS:
                 numRowsDeleted = mOpenHelper.getWritableDatabase().delete(
-                        NewsContract.NewsnEntry.TABLE_NAME,
+                        NewsContract.NewsEntry.TABLE_NAME,
                         selection,
                         selectionArgs);
 
@@ -236,12 +237,12 @@ public final class NewsProvider extends android.content.ContentProvider {
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
 
-        int mRowsUpdated = 0;
+        int mRowsUpdated;
    switch (sUriMatcher.match(uri)) {
 
        case CODE_NEWS:
            mRowsUpdated = mOpenHelper.getWritableDatabase().update(
-                   NewsContract.NewsnEntry.TABLE_NAME,
+                   NewsContract.NewsEntry.TABLE_NAME,
                    values,
                    selection,
                    selectionArgs);

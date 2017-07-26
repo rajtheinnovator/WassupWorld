@@ -1,29 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <item
-        android:id="@+id/action_lastet"
+        android:id="@+id/action_latest"
         android:enabled="true"
         android:icon="@drawable/newspaper"
         android:title="@string/action_latest"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
     <item
         android:id="@+id/action_sources"
         android:enabled="true"
         android:icon="@drawable/ic_sources_black_24dp"
         android:title="@string/action_sources"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
     <item
         android:id="@+id/action_explore"
         android:enabled="true"
         android:icon="@drawable/ic_explore_black_24dp"
         android:title="@string/action_explore"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
     <item
         android:id="@+id/action_bookmark"
         android:enabled="true"
         android:icon="@drawable/ic_bookmark_black_24dp"
         android:title="@string/action_bookmark"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
 
 </menu>

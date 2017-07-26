@@ -41,28 +41,18 @@
         android:layout_marginBottom="56dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <LinearLayout
-        android:id="@+id/empty_layout_source_news"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
 
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="200dp"
-            android:src="@drawable/newspaper_gray" />
 
         <TextView
-            android:id="@+id/empty_view_result_recycle"
+            android:id="@+id/empty_layout_source_news"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/no_news_found" />
-    </LinearLayout>
+            android:contentDescription="@string/no_news_found"
+            android:drawableTop="@drawable/newspaper_gray"
+            android:text="@string/no_news_found"
+            android:visibility="gone" />
+
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView_source"

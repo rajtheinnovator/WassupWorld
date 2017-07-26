@@ -37,7 +37,7 @@
 
 
         <TextView
-            android:id="@+id/tv_descreption_news"
+            android:id="@+id/tv_description_news"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -55,67 +55,26 @@
                 android:id="@+id/iv_source_logo"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="false"
+                android:contentDescription="@string/source_icon_con_des"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:padding="5dp"
+                android:visibility="visible"
                 tools:src="@drawable/ic_access_time_black_24dp"
                 tools:text="BBC Sport" />
 
-            <TextView
-                android:id="@+id/tv_category_news"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@id/iv_source_logo"
-                android:layout_toRightOf="@id/iv_source_logo"
-                android:gravity="center_horizontal"
-                android:padding="5dp"
-                tools:text="sport" />
-
-            <TextView
-                android:id="@+id/tv_date_news"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_category_news"
-                android:layout_gravity="end"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@id/iv_source_logo"
-                android:layout_toRightOf="@id/iv_source_logo"
-
-                tools:text="3 hours" />
-
-            <TextView
-                android:id="@+id/author_news"
-                android:layout_width="140dp"
-                android:layout_height="wrap_content"
-
-                android:layout_alignBaseline="@+id/tv_date_news"
-                android:layout_alignBottom="@+id/tv_date_news"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/tv_date_news"
-                android:layout_toRightOf="@+id/tv_date_news"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:padding="5dp"
-                tools:text="by BBcjjh jnnjn jnjggfgffgfhfh" />
-
 
             <ImageButton
-
                 android:id="@+id/button_watch_later_news"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/read_later_icon_des"
                 android:src="@drawable/ic_bookmark_border_black_24dp" />
 
             <ImageButton
@@ -125,13 +84,44 @@
                 android:layout_height="50dp"
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
-
-                android:layout_toLeftOf="@+id/button_watch_later_news"
                 android:layout_toStartOf="@+id/button_watch_later_news"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/share_icon_con_des"
                 android:src="@drawable/ic_share_black_24dp" />
 
+            <TextView
+                android:id="@+id/tv_category_news"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@id/iv_source_logo"
+                android:gravity="start"
+                android:padding="5dp"
+                tools:text="sport" />
+
+            <TextView
+                android:id="@+id/tv_date_news"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_category_news"
+                android:layout_gravity="end"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@id/iv_source_logo"
+                tools:text="3 hours" />
+
+            <TextView
+                android:id="@+id/author_news"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tv_date_news"
+                android:layout_alignBottom="@+id/tv_date_news"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/tv_date_news"
+                android:layout_toStartOf="@id/button_share_news"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:padding="5dp"
+                tools:text="by BBcjjh jnnjn jnjggfgffgfhfh" />
 
         </RelativeLayout>
 

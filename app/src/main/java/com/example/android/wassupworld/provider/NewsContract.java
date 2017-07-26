@@ -20,7 +20,7 @@ public class NewsContract {
     public static final String PATH_NEWS = "news";
     public static final String PATH__WATCH_LATER_NEWS = "watch_later_news";
 
-    public static final class NewsnEntry implements BaseColumns {
+    public static final class NewsEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_NEWS).build();
@@ -109,7 +109,7 @@ public class NewsContract {
         public static final String COLUMN_URL_TO_IMAGE = "url_to_image";
 
         public static final String COLUMN_CATEGORY = "category";
-        public static final String COLUMN_COUNTRYY = "country";
+        public static final String COLUMN_COUNTRY = "country";
 
     }
 }

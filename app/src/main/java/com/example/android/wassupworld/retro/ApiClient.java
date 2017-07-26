@@ -9,11 +9,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    public static final String BASE_URL = "https://newsapi.org/v1/";
+    private static final String BASE_URL = "https://newsapi.org/v1/";
     private static Retrofit retrofit = null;
 
 
-    public static <S> S getClient(Class<S> serviceClas) {
+    public static <S> S getClient(Class<S> serviceClass) {
         if (retrofit==null) {
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(5, TimeUnit.MINUTES)
@@ -25,6 +25,6 @@ public class ApiClient {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
     }
-        return retrofit.create(serviceClas);
+        return retrofit.create(serviceClass);
     }}
 

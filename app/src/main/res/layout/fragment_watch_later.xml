@@ -4,29 +4,18 @@
 
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/empty_layout_later"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
 
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="200dp"
-            android:contentDescription="@string/no_bookmark"
-            android:src="@drawable/ic_collections_bookmark_black_24dp" />
 
         <TextView
-            android:id="@+id/empty_view_result_recycle"
+            android:id="@+id/empty_layout_later"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/no_bookmark" />
-    </LinearLayout>
+            android:contentDescription="@string/no_bookmark"
+            android:drawableTop="@drawable/ic_collections_bookmark_black_24dp"
+            android:text="@string/no_bookmark"
+            android:visibility="gone" />
+
 
     <ProgressBar
         android:id="@+id/progress_bar_later"

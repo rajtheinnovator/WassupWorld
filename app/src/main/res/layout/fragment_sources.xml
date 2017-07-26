@@ -3,13 +3,19 @@
 
     android:layout_height="match_parent">
 
+
     <TextView
-        android:id="@+id/empty_list_text_view_sources"
+        android:id="@+id/ll_empty_source"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:clickable="true"
+        android:contentDescription="@string/refresh_fragment"
+        android:drawableTop="@drawable/ic_refresh_black_24dp"
+        android:onClick="refreshClick"
         android:text="@string/refresh_fragment"
         android:visibility="gone" />
+
 
     <ProgressBar
         android:id="@+id/progress_bar_sources"

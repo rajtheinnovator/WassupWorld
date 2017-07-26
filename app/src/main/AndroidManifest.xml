@@ -1,37 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.android.wassupworld">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <!-- Permissions required by the sync adapter -->
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name="com.example.android.wassupworld.UI.SplashActivity"
+            android:name="com.example.android.wassupworld.ui.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.android.wassupworld.UI.MainActivity"
+            android:name="com.example.android.wassupworld.ui.MainActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -44,8 +46,8 @@
             android:authorities="com.example.android.wassupworld.provider.provider"
             android:exported="false"
             android:syncable="true" />
-        <!-- SyncAdapter's dummy authentication service -->
-        <service android:name=".Sync.AuthenticatorService">
+
+        <service android:name=".sync.AuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
@@ -54,9 +56,9 @@
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
         </service>
-        <!-- The SyncAdapter service -->
+
         <service
-            android:name=".Sync.SyncService"
+            android:name=".sync.SyncService"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
@@ -67,20 +69,20 @@
                 android:resource="@xml/syncadapter" />
         </service>
 
-        <activity android:name=".UI.WebViewActivity" />
+        <activity android:name=".ui.WebViewActivity" />
         <activity
-            android:name=".UI.SourceNewsActivity"
-            android:parentActivityName=".UI.MainActivity">
+            android:name=".ui.SourceNewsActivity"
+            android:parentActivityName=".ui.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".UI.MainActivity" />
+                android:value=".ui.MainActivity" />
         </activity>
         <activity
-            android:name=".UI.SearchResultActivity"
-            android:parentActivityName=".UI.MainActivity">
+            android:name=".ui.SearchResultActivity"
+            android:parentActivityName=".ui.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".UI.MainActivity" />
+                android:value=".ui.MainActivity" />
 
         </activity>
 
@@ -96,8 +98,10 @@
         </receiver>
         <service
             android:name=".widget.WidgetService"
-
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="5200db5d624ff0bfb3c85e49d8b3c508fed492b2" />
     </application>
 
 </manifest>

@@ -1,29 +1,23 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.MainActivity">
 
-    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/ll_empty_latest"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/ic_refresh_black_24dp" />
 
         <TextView
-            android:id="@+id/empty_list_text_view_news"
+            android:id="@+id/ll_empty_latest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/refresh_fragment" />
-    </LinearLayout>
+            android:clickable="true"
+            android:contentDescription="@string/refresh_fragment"
+            android:drawableTop="@drawable/ic_refresh_black_24dp"
+            android:onClick="refreshClick"
+            android:text="@string/refresh_fragment"
+            android:visibility="gone" />
+
 
     <ProgressBar
         android:id="@+id/progress_bar_news"

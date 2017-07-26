@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.android.wassupworld.provider.NewsContract.NewsnEntry;
+import com.example.android.wassupworld.provider.NewsContract.NewsEntry;
 
 
 
@@ -23,21 +23,21 @@ public class NewsDatabase extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         final String SQL_CREATE_NEWS_TABLE =
 
-                "CREATE TABLE " + NewsnEntry.TABLE_NAME + " (" +
+                "CREATE TABLE " + NewsEntry.TABLE_NAME + " (" +
 
-                        NewsnEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        NewsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 
-                        NewsnEntry.COLUMN_DATE + " INTEGER  , " +
-                        NewsnEntry.COLUMN_AUTHOR + " TEXT , " +
-                        NewsnEntry.COLUMN_CATEGORY + " TEXT  , " +
-                        NewsnEntry.COLUMN_DESCRIPTION + " TEXT , " +
-                        NewsnEntry.COLUMN_SOURCE + " TEXT , " +
-                        NewsnEntry.COLUMN_TITLE + " TEXT , " +
-                        NewsnEntry.COLUMN_URL + " TEXT , " +
-                        NewsnEntry.COLUMN_URL_TO_IMAGE + " TEXT , " +
-                        NewsnEntry.COLUMN_LATER + " INTEGER DEFAULT 0 , " +
+                        NewsEntry.COLUMN_DATE + " INTEGER  , " +
+                        NewsEntry.COLUMN_AUTHOR + " TEXT , " +
+                        NewsEntry.COLUMN_CATEGORY + " TEXT  , " +
+                        NewsEntry.COLUMN_DESCRIPTION + " TEXT , " +
+                        NewsEntry.COLUMN_SOURCE + " TEXT , " +
+                        NewsEntry.COLUMN_TITLE + " TEXT , " +
+                        NewsEntry.COLUMN_URL + " TEXT , " +
+                        NewsEntry.COLUMN_URL_TO_IMAGE + " TEXT , " +
+                        NewsEntry.COLUMN_LATER + " INTEGER DEFAULT 0 , " +
 
-                " UNIQUE (" + NewsnEntry.COLUMN_TITLE + ") ON CONFLICT REPLACE);";
+                        " UNIQUE (" + NewsEntry.COLUMN_TITLE + ") ON CONFLICT REPLACE);";
 
 
         final String SQL_CREATE_WATCH_LATER_NEWS_TABLE =
@@ -65,7 +65,7 @@ public class NewsDatabase extends SQLiteOpenHelper {
                 NewsContract.SourcesEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 
                 NewsContract.SourcesEntry.COLUMN_CATEGORY + " TEXT  , " +
-                NewsContract.SourcesEntry.COLUMN_COUNTRYY + " TEXT , " +
+                NewsContract.SourcesEntry.COLUMN_COUNTRY + " TEXT , " +
                 NewsContract.SourcesEntry.COLUMN_DESCRIPTION + " TEXT , " +
                 NewsContract.SourcesEntry.COLUMN_ID + " TEXT , " +
                 NewsContract.SourcesEntry.COLUMN_NAME + " TEXT , " +
@@ -81,7 +81,7 @@ public class NewsDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + NewsnEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + NewsEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + NewsContract.SourcesEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + NewsContract.WatchLaterEntry.TABLE_NAME);
         onCreate(db);

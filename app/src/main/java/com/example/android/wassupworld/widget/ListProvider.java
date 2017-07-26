@@ -29,12 +29,12 @@ public class ListProvider implements RemoteViewsService.RemoteViewsFactory {
     private static final int INDEX_IMAGE_URL = 4;
     private static final int INDEX_URL = 5;
     private final String[] FORECAST_COLUMNS = {
-            NewsContract.NewsnEntry.TABLE_NAME + "." + NewsContract.NewsnEntry._ID,
-            NewsContract.NewsnEntry.COLUMN_DATE,
-            NewsContract.NewsnEntry.COLUMN_SOURCE,
-            NewsContract.NewsnEntry.COLUMN_TITLE,
-            NewsContract.NewsnEntry.COLUMN_URL_TO_IMAGE,
-            NewsContract.NewsnEntry.COLUMN_URL
+            NewsContract.NewsEntry.TABLE_NAME + "." + NewsContract.NewsEntry._ID,
+            NewsContract.NewsEntry.COLUMN_DATE,
+            NewsContract.NewsEntry.COLUMN_SOURCE,
+            NewsContract.NewsEntry.COLUMN_TITLE,
+            NewsContract.NewsEntry.COLUMN_URL_TO_IMAGE,
+            NewsContract.NewsEntry.COLUMN_URL
     };
     private Context context = null;
     private Cursor data = null;
@@ -59,17 +59,12 @@ public class ListProvider implements RemoteViewsService.RemoteViewsFactory {
         // that calls use our process and permission
         final long identityToken = Binder.clearCallingIdentity();
 
-//                    data = context.getContentResolver().query(NewsContract.NewsnEntry.CONTENT_URI,
-//                            FORECAST_COLUMNS,
-//                            NewsContract.NewsnEntry.COLUMN_DATE + "> ?",
-//                            new String[]{getUnixTimeBefore(6) + ""},
-//                            NewsContract.NewsnEntry.COLUMN_DATE + " DESC");
 
-        data = context.getContentResolver().query(NewsContract.NewsnEntry.CONTENT_URI,
+        data = context.getContentResolver().query(NewsContract.NewsEntry.CONTENT_URI,
                 FORECAST_COLUMNS,
                 null,
                 null,
-                NewsContract.NewsnEntry.COLUMN_DATE + " DESC LIMIT 10");
+                NewsContract.NewsEntry.COLUMN_DATE + " DESC LIMIT 10");
 
 
         Binder.restoreCallingIdentity(identityToken);
@@ -97,11 +92,9 @@ public class ListProvider implements RemoteViewsService.RemoteViewsFactory {
         }
         RemoteViews views = new RemoteViews(context.getPackageName(),
                 R.layout.widget_list_item);
-        int weatherId = data.getInt(INDEX_ID);
-        String source = data.getString(INDEX_SOURCE);
+
         String urlImage = data.getString(INDEX_IMAGE_URL);
         String titie = data.getString(INDEX_TITLE);
-        String date = data.getString(INDEX_DATE);
         String url = data.getString(INDEX_URL);
         Bitmap image = null;
         if (!TextUtils.isEmpty(urlImage))
@@ -115,9 +108,8 @@ public class ListProvider implements RemoteViewsService.RemoteViewsFactory {
             views.setImageViewBitmap(R.id.iv_widget_news, image);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-            setRemoteContentDescription(views, titie);
-        }
+        setRemoteContentDescription(views, titie);
+
         if (!TextUtils.isEmpty(titie))
         views.setTextViewText(R.id.tv_news_title, titie);
 

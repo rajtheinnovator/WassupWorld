@@ -13,9 +13,9 @@ import android.support.v4.app.TaskStackBuilder;
 import android.widget.RemoteViews;
 
 import com.example.android.wassupworld.R;
-import com.example.android.wassupworld.Sync.SyncAdapter;
-import com.example.android.wassupworld.UI.MainActivity;
-import com.example.android.wassupworld.UI.WebViewActivity;
+import com.example.android.wassupworld.sync.SyncAdapter;
+import com.example.android.wassupworld.ui.MainActivity;
+import com.example.android.wassupworld.ui.WebViewActivity;
 
 /**
  * Implementation of App Widget functionality.
@@ -34,11 +34,8 @@ public class NewsWidget extends AppWidgetProvider {
             views.setOnClickPendingIntent(R.id.widget, pendingIntent);
 
             // Set up the collection
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                setRemoteAdapter(context, views);
-            } else {
-                setRemoteAdapterV11(context, views);
-            }
+
+            setRemoteAdapter(context, views);
 
             Intent clickIntentTemplate = new Intent(context, WebViewActivity.class);
 
@@ -75,14 +72,5 @@ public class NewsWidget extends AppWidgetProvider {
                 new Intent(context, WidgetService.class));
     }
 
-    /**
-     * Sets the remote adapter used to fill in the list items
-     *
-     * @param views RemoteViews to set the RemoteAdapter
-     */
-    @SuppressWarnings("deprecation")
-    private void setRemoteAdapterV11(Context context, @NonNull final RemoteViews views) {
-        views.setRemoteAdapter(0, R.id.lv_ing_widget,
-                new Intent(context, WidgetService.class));
-    }
+
 }
