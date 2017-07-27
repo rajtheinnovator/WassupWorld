@@ -206,10 +206,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void refreshContent() {
-
-        SyncAdapter.syncImmediately(MainActivity.this);
-
-
+        if (isNetworkConnected()) {
+            SyncAdapter.syncImmediately(MainActivity.this);
+        } else
+            mSwipeRefreshLayout.setRefreshing(false);
     }
 
     public void refreshClick(View view) {
