@@ -40,16 +40,16 @@ public class MainActivity extends AppCompatActivity {
     private Fragment selectedFragment = null;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private BottomNavigationView bottomNavigationView;
-
+    private SyncReceiver mReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SyncReceiver myReceiver = new SyncReceiver();
+        mReceiver = new SyncReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION);
-        registerReceiver(myReceiver, filter);
+        registerReceiver(mReceiver, filter);
         mPlaceSankBar = (CoordinatorLayout) findViewById(R.id.placeSnackBar);
         mSearchView = (SearchView) findViewById(R.id.searchView);
         if (!isNetworkConnected())
@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -165,6 +166,15 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, SearchResultActivity.class);
         intent.putExtra(SEARCH_KEY, query);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mReceiver != null) {
+            unregisterReceiver(mReceiver);
+            mReceiver = null;
+        }
+        super.onDestroy();
     }
 
     private void showSnackBar() {

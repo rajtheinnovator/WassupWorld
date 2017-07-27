@@ -3,6 +3,7 @@ package com.example.android.wassupworld.ui;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,10 +33,12 @@ public class SourcesFragment extends Fragment implements LoaderManager.LoaderCal
     private final static String RUNNING = "running";
     private final static String STOPPING = "stopping";
     private static final int SOURCES_FRAGMENT_LOADER = 1;
+    private final static String ACTION = "com.example.android.wassupworld.Sync.SyncStatus";
     private ProgressBar mProgressBar;
     private TextView mEmptyLayout;
     private RecyclerView mRecycleView;
     private SourcesAdapter mSourcesAdapter;
+    private SyncReceiver mReceiver;
     public SourcesFragment() {
         // Required empty public constructor
     }
@@ -49,7 +52,10 @@ public class SourcesFragment extends Fragment implements LoaderManager.LoaderCal
         mSourcesAdapter = new SourcesAdapter(getContext(), null, this);
         int mNoOfColumns = Icons.calculateNoOfColumnsSourcesList(getContext());
         GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), mNoOfColumns);
-
+        mReceiver = new SyncReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION);
+        getActivity().registerReceiver(mReceiver, filter);
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar_sources);
         mEmptyLayout = (TextView) rootView.findViewById(R.id.ll_empty_source);
         mRecycleView = (RecyclerView) rootView.findViewById(R.id.sources_recycle_view);
@@ -70,6 +76,14 @@ public class SourcesFragment extends Fragment implements LoaderManager.LoaderCal
         startActivity(intent);
     }
 
+    @Override
+    public void onDestroy() {
+        if (mReceiver != null) {
+            getActivity().unregisterReceiver(mReceiver);
+            mReceiver = null;
+        }
+        super.onDestroy();
+    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {

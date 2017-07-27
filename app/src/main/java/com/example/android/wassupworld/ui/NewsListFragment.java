@@ -37,7 +37,7 @@ public class NewsListFragment extends Fragment implements LoaderManager.LoaderCa
     private static final int WEB_VIEW_ACTIVITY_KEY = 0;
     private static final int SHARE_KEY = 1;
     private ProgressBar mProgressBar;
-    private SyncReceiver myReceiver;
+    private SyncReceiver mReceiver;
     private RecyclerView mRecycleView;
     private NewsAdapter mNewsAdapter;
     private TextView mEmptyLayout;
@@ -53,10 +53,10 @@ public class NewsListFragment extends Fragment implements LoaderManager.LoaderCa
         // Inflate the layout for this fragment
 
         View rootView = inflater.inflate(R.layout.fragment_news_list, container, false);
-        myReceiver = new SyncReceiver();
+        mReceiver = new SyncReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION);
-        getActivity().registerReceiver(myReceiver, filter);
+        getActivity().registerReceiver(mReceiver, filter);
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar_news);
         mEmptyLayout = (TextView) rootView.findViewById(R.id.ll_empty_latest);
         mNewsAdapter = new NewsAdapter(getContext(), null, this);
@@ -87,6 +87,7 @@ public class NewsListFragment extends Fragment implements LoaderManager.LoaderCa
         }
         return null;
     }
+
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
@@ -134,9 +135,9 @@ public class NewsListFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public void onDestroy() {
-        if (myReceiver != null) {
-            getActivity().unregisterReceiver(myReceiver);
-            myReceiver = null;
+        if (mReceiver != null) {
+            getActivity().unregisterReceiver(mReceiver);
+            mReceiver = null;
         }
         super.onDestroy();
     }
