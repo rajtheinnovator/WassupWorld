@@ -58,7 +58,7 @@ public class SourceNewsActivity extends AppCompatActivity implements SourceListA
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(mTypeName);
+        getSupportActionBar().setTitle(mTypeName.toUpperCase().replace("-", " "));
         getSupportLoaderManager().initLoader(SOURCE_NEWS_ACTIVITY_LOADER, null, this);
     }
 
